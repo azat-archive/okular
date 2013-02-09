@@ -91,8 +91,9 @@ void Shell::init()
     return;
   }
 
-  // now that the Part plugin is loaded, create the part
-  m_part = factory->create< KParts::ReadWritePart >( this );
+  // now that the Part is loaded, we cast it to a Part to get
+  // our hands on it
+  m_part = factory->create< KParts::ReadOnlyPart >( this );
   if (m_part)
   {
     // then, setup our actions
@@ -148,7 +149,7 @@ Shell::~Shell()
     if ( m_part )
     {
         writeSettings();
-        m_part->closeUrl( false );
+        m_part->closeUrl();
     }
     m_part = 0; // It is deleted by the KPart/QObject machinery
     if ( m_args )
@@ -326,9 +327,7 @@ void Shell::fileOpen()
         return;
     KUrl url = dlg.selectedUrl();
     if ( !url.isEmpty() )
-    {
         openUrl( url );
-    }
 }
 
 void Shell::slotQuit()
@@ -398,11 +397,6 @@ void Shell::slotShowMenubar()
 QSize Shell::sizeHint() const
 {
     return QApplication::desktop()->availableGeometry( this ).size() * 0.75;
-}
-
-bool Shell::queryClose()
-{
-    return m_part ? m_part->queryClose() : true;
 }
 
 #include "shell.moc"

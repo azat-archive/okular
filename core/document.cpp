@@ -1016,13 +1016,7 @@ void DocumentPrivate::warnLimitedAnnotSupport()
         return;
     m_showWarningLimitedAnnotSupport = false; // Show the warning once
 
-    if ( m_annotationsNeedSaveAs )
-    {
-        // Shown if the user is editing annotations in a file whose metadata is
-        // not stored locally (.okular archives belong to this category)
-        KMessageBox::information( m_parent->widget(), i18n("Your annotation changes will not be saved automatically. Use File -> Save As...\nor your changes will be lost once the document is closed"), QString(), "annotNeedSaveAs" );
-    }
-    else if ( !canAddAnnotationsNatively() )
+    if ( !canAddAnnotationsNatively() )
     {
         // If the generator doesn't support native annotations
         KMessageBox::information( m_parent->widget(), i18n("Your annotations are saved internally by Okular.\nYou can export the annotated document using File -> Export As -> Document Archive"), QString(), "annotExportAsArchive" );
@@ -1050,14 +1044,6 @@ void DocumentPrivate::saveDocumentInfo() const
         QDomElement pageList = doc.createElement( "pageList" );
         root.appendChild( pageList );
         PageItems saveWhat = AllPageItems;
-        if ( m_annotationsNeedSaveAs )
-        {
-            /* In this case, if the user makes a modification, he's requested to
-             * save to a new document. Therefore, if there are existing local
-             * annotations, we save them back unmodified in the original
-             * document's metadata, so that it appears that it was not changed */
-            saveWhat |= OriginalAnnotationPageItems;
-        }
         // <page list><page number='x'>.... </page> save pages that hold data
         QVector< Page * >::const_iterator pIt = m_pagesVector.constBegin(), pEnd = m_pagesVector.constEnd();
         for ( ; pIt != pEnd; ++pIt )
@@ -2027,18 +2013,15 @@ bool Document::openDocument( const QString & docFile, const KUrl& url, const KMi
 
     // Be quiet while restoring local annotations
     d->m_showWarningLimitedAnnotSupport = false;
-    d->m_annotationsNeedSaveAs = false;
 
     // 2. load Additional Data (bookmarks, local annotations and metadata) about the document
     if ( d->m_archiveData )
     {
         d->loadDocumentInfo( d->m_archiveData->metadataFileName );
-        d->m_annotationsNeedSaveAs = true;
     }
     else
     {
         d->loadDocumentInfo();
-        d->m_annotationsNeedSaveAs = ( d->canAddAnnotationsNatively() && containsExternalAnnotations );
     }
 
     d->m_showWarningLimitedAnnotSupport = true;
@@ -2478,9 +2461,6 @@ KUrl Document::currentDocument() const
 
 bool Document::isAllowed( Permission action ) const
 {
-    if ( action == Okular::AllowNotes && !d->m_annotationEditingEnabled )
-        return false;
-
 #if !OKULAR_FORCE_DRM
     if ( KAuthorized::authorize( "skip_drm" ) && !Okular::SettingsCore::obeyDRM() )
         return true;
@@ -2722,16 +2702,6 @@ void Document::requestTextPage( uint page )
     d->m_generator->generateTextPage( kp );
 }
 
-void DocumentPrivate::notifyAnnotationChanges( int page )
-{
-    int flags = DocumentObserver::Annotations;
-
-    if ( m_annotationsNeedSaveAs )
-        flags |= DocumentObserver::NeedSaveAs;
-
-    foreachObserverD( notifyPageChanged( page, flags ) );
-}
-
 void Document::addPageAnnotation( int page, Annotation * annotation )
 {
     Okular::SaveInterface * iface = qobject_cast< Okular::SaveInterface * >( d->m_generator );
@@ -2754,7 +2724,7 @@ void Document::addPageAnnotation( int page, Annotation * annotation )
         proxy->notifyAddition( annotation, page );
 
     // notify observers about the change
-    d->notifyAnnotationChanges( page );
+    foreachObserver( notifyPageChanged( page, DocumentObserver::Annotations ) );
 
     if ( annotation->flags() & Annotation::ExternallyDrawn )
     {
@@ -2810,7 +2780,7 @@ void Document::modifyPageAnnotation( int page, Annotation * annotation, bool app
         proxy->notifyModification( annotation, page, appearanceChanged );
 
     // notify observers about the change
-    d->notifyAnnotationChanges( page );
+    foreachObserver( notifyPageChanged( page, DocumentObserver::Annotations ) );
 
     if ( appearanceChanged && (annotation->flags() & Annotation::ExternallyDrawn) )
     {
@@ -2885,7 +2855,7 @@ void Document::removePageAnnotation( int page, Annotation * annotation )
         kp->removeAnnotation( annotation ); // Also destroys the object
 
         // in case of success, notify observers about the change
-        d->notifyAnnotationChanges( page );
+        foreachObserver( notifyPageChanged( page, DocumentObserver::Annotations ) );
 
         if ( isExternallyDrawn )
         {
@@ -2933,7 +2903,7 @@ void Document::removePageAnnotations( int page, const QList< Annotation * > &ann
     if ( changed )
     {
         // in case we removed even only one annotation, notify observers about the change
-        d->notifyAnnotationChanges( page );
+        foreachObserver( notifyPageChanged( page, DocumentObserver::Annotations ) );
 
         if ( refreshNeeded )
         {
@@ -4107,12 +4077,6 @@ QPrinter::Orientation Document::orientation() const
         else portrait++;
     }
     return (landscape > portrait) ? QPrinter::Landscape : QPrinter::Portrait;
-}
-
-void Document::setAnnotationEditingEnabled( bool enable )
-{
-    d->m_annotationEditingEnabled = enable;
-    foreachObserver( notifySetup( d->m_pagesVector, 0 ) );
 }
 
 void DocumentPrivate::requestDone( PixmapRequest * req )

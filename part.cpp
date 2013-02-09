@@ -152,25 +152,8 @@ class FileKeeper
         std::FILE * m_handle;
 };
 
-Okular::PartFactory::PartFactory()
-: KPluginFactory(okularAboutData( "okular", I18N_NOOP( "Okular" ) ))
-{
-}
-
-Okular::PartFactory::~PartFactory()
-{
-}
-
-QObject *Okular::PartFactory::create(const char *iface, QWidget *parentWidget, QObject *parent, const QVariantList &args, const QString &keyword)
-{
-    Q_UNUSED ( keyword );
-
-    Okular::Part *object = new Okular::Part( parentWidget, parent, args, componentData() );
-    object->setReadWrite( QLatin1String(iface) == QLatin1String("KParts::ReadWritePart") );
-    return object;
-}
-
-K_EXPORT_PLUGIN( Okular::PartFactory() )
+K_PLUGIN_FACTORY( okularPartFactory, registerPlugin< Okular::Part >(); )
+K_EXPORT_PLUGIN( okularPartFactory( okularAboutData( "okular", I18N_NOOP( "Okular" ) ) ) )
 
 static QAction* actionForExportFormat( const Okular::ExportFormat& format, QObject *parent = 0 )
 {
@@ -284,9 +267,8 @@ namespace Okular
 
 Part::Part(QWidget *parentWidget,
 QObject *parent,
-const QVariantList &args,
-KComponentData componentData )
-: KParts::ReadWritePart(parent),
+const QVariantList &args )
+: KParts::ReadOnlyPart(parent),
 m_tempfile( 0 ), m_fileWasRemoved( false ), m_showMenuBarAction( 0 ), m_showFullScreenAction( 0 ), m_actionsSearched( false ),
 m_cliPresentation(false), m_embedMode(detectEmbedMode(parentWidget, parent, args)), m_generatorGuiClient(0), m_keeper( 0 )
 {
@@ -326,7 +308,7 @@ m_cliPresentation(false), m_embedMode(detectEmbedMode(parentWidget, parent, args
     new OkularLiveConnectExtension( this );
 
     // we need an instance
-    setComponentData( componentData );
+    setComponentData(okularPartFactory::componentData());
 
     GuiUtils::addIconLoader( iconLoader() );
 
@@ -809,7 +791,7 @@ Part::~Part()
     m_document->removeObserver( this );
 
     if ( m_document->isOpened() )
-        Part::closeUrl( false );
+        Part::closeUrl();
 
     delete m_toc;
     delete m_pageView;
@@ -1055,9 +1037,6 @@ void Part::notifyViewportChanged( bool /*smoothMove*/ )
 
 void Part::notifyPageChanged( int page, int flags )
 {
-    if ( flags & Okular::DocumentObserver::NeedSaveAs )
-        setModified();
-
     if ( !(flags & Okular::DocumentObserver::Bookmark ) )
         return;
 
@@ -1315,10 +1294,6 @@ bool Part::openFile()
 
 bool Part::openUrl(const KUrl &_url)
 {
-    // Close current document if any
-    if ( !closeUrl() )
-        return false;
-
     KUrl url( _url );
     if ( url.hasHTMLRef() )
     {
@@ -1342,7 +1317,7 @@ bool Part::openUrl(const KUrl &_url)
     }
 
     // this calls in sequence the 'closeUrl' and 'openFile' methods
-    bool openOk = KParts::ReadWritePart::openUrl( url );
+    bool openOk = KParts::ReadOnlyPart::openUrl( url );
 
     if ( openOk )
     {
@@ -1358,36 +1333,9 @@ bool Part::openUrl(const KUrl &_url)
     return openOk;
 }
 
-bool Part::queryClose()
+
+bool Part::closeUrl()
 {
-    if ( !isReadWrite() || !isModified() )
-        return true;
-
-    const int res = KMessageBox::warningYesNoCancel( widget(),
-                        i18n( "Do you want to save your annotation changes or discard them?" ),
-                        i18n( "Close Document" ),
-                        KStandardGuiItem::saveAs(),
-                        KStandardGuiItem::discard() );
-
-    switch ( res )
-    {
-        case KMessageBox::Yes: // Save as
-            slotSaveFileAs();
-            return !isModified(); // Only allow closing if file was really saved
-        case KMessageBox::No: // Discard
-            return true;
-        default: // Cancel
-            return false;
-    }
-}
-
-bool Part::closeUrl(bool promptToSave)
-{
-    if ( promptToSave && !queryClose() )
-        return false;
-
-    setModified( false );
-
     if (!m_temporaryLocalFile.isNull() && m_temporaryLocalFile != localFilePath())
     {
         QFile::remove( m_temporaryLocalFile );
@@ -1447,22 +1395,17 @@ bool Part::closeUrl(bool promptToSave)
 #ifdef OKULAR_KEEP_FILE_OPEN
     m_keeper->close();
 #endif
-    bool r = KParts::ReadWritePart::closeUrl();
+    bool r = KParts::ReadOnlyPart::closeUrl();
     setUrl(KUrl());
 
     return r;
-}
-
-bool Part::closeUrl()
-{
-    return closeUrl( true );
 }
 
 void Part::guiActivateEvent(KParts::GUIActivateEvent *event)
 {
     updateViewActions();
 
-    KParts::ReadWritePart::guiActivateEvent(event);
+    KParts::ReadOnlyPart::guiActivateEvent(event);
 }
 
 void Part::close()
@@ -1577,22 +1520,7 @@ void Part::slotDoFileDirty()
     }
 
     // close and (try to) reopen the document
-    if ( !closeUrl() )
-    {
-        if ( tocReloadPrepared ) 
-        {
-            m_toc->rollbackReload();
-        }
-        return;
-    }
-    
-    if ( tocReloadPrepared )
-        m_toc->finishReload();
-
-    // inform the user about the operation in progress
-    m_pageView->displayMessage( i18n("Reloading the document...") );
-
-    if ( KParts::ReadWritePart::openUrl( m_oldUrl ) )
+    if ( KParts::ReadOnlyPart::openUrl( url() ) )
     {
         // on successful opening, restore the previous viewport
         if ( m_viewportDirty.pageNumber >= (int) m_document->pages() )
@@ -1984,11 +1912,6 @@ void Part::slotFindPrev()
         m_findBar->findPrev();
 }
 
-bool Part::saveFile()
-{
-    kDebug() << "Okular part doesn't support saving the file in the location from which it was opened";
-    return false;
-}
 
 void Part::slotSaveFileAs()
 {
@@ -2033,17 +1956,12 @@ void Part::slotSaveFileAs()
     if ( !saveUrl.isValid() || saveUrl.isEmpty() )
         return;
 
-    saveAs( saveUrl );
-}
-
-bool Part::saveAs( const KUrl & saveUrl )
-{
     KTemporaryFile tf;
     QString fileName;
     if ( !tf.open() )
     {
         KMessageBox::information( widget(), i18n("Could not open the temporary file for saving." ) );
-            return false;
+            return;
     }
     fileName = tf.fileName();
     tf.close();
@@ -2066,18 +1984,12 @@ bool Part::saveAs( const KUrl & saveUrl )
         {
             KMessageBox::information( widget(), i18n("File could not be saved in '%1'. %2", fileName, errorText ) );
         }
-        return false;
+        return;
     }
 
     KIO::Job *copyJob = KIO::file_copy( fileName, saveUrl, -1, KIO::Overwrite );
     if ( !KIO::NetAccess::synchronousRun( copyJob, widget() ) )
-    {
         KMessageBox::information( widget(), i18n("File could not be saved in '%1'. Try to save it to another location.", saveUrl.prettyUrl() ) );
-        return false;
-    }
-
-    setModified( false );
-    return true;
 }
 
 
@@ -2752,12 +2664,6 @@ void Part::updateAboutBackendAction()
     {
         m_aboutBackend->setEnabled( false );
     }
-}
-
-void Part::setReadWrite(bool readwrite)
-{
-    m_document->setAnnotationEditingEnabled( readwrite );
-    ReadWritePart::setReadWrite( readwrite );
 }
 
 } // namespace Okular

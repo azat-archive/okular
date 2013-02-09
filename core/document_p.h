@@ -101,7 +101,6 @@ class DocumentPrivate
             m_archiveData( 0 ),
             m_fontsCached( false ),
             m_documentInfo( 0 ),
-            m_annotationEditingEnabled ( true ),
             m_annotationBeingMoved( false )
         {
             calculateMaxTextPages();
@@ -135,7 +134,6 @@ class DocumentPrivate
         bool openDocumentInternal( const KService::Ptr& offer, bool isstdin, const QString& docFile, const QByteArray& filedata );
         bool savePageDocumentInfo( KTemporaryFile *infoFile, int what ) const;
         DocumentViewport nextDocumentViewport() const;
-        void notifyAnnotationChanges( int page );
         bool canAddAnnotationsNatively() const;
         bool canModifyExternalAnnotations() const;
         bool canRemoveExternalAnnotations() const;
@@ -254,8 +252,6 @@ class DocumentPrivate
 
         QSet< View * > m_views;
 
-        bool m_annotationEditingEnabled;
-        bool m_annotationsNeedSaveAs;
         bool m_annotationBeingMoved; // is an annotation currently being moved?
         bool m_showWarningLimitedAnnotSupport;
 };
