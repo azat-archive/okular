@@ -102,7 +102,7 @@ QImage KTxt::Page::generateImageTile( int width, int row, int xdelta, int height
     resImg.fill( Qt::white );
     QPainter paintTo;
     paintTo.begin( &resImg );
-    paintTo.drawText( 0, 0, resImg.width(), resImg.height(), 0, content() );
+    paintTo.drawText( 0, 0, resImg.width(), resImg.height(), Qt::TextWordWrap, content() );
     paintTo.end();
 
     return resImg;
