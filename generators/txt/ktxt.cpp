@@ -91,7 +91,6 @@ QImage KTxt::Page::generateImageTile( int width, int xdelta, int height, int yde
     kWarning()  << "width:" << width << ", xdelta:" << xdelta
                 << ", height:" << height << ", ydelta:" << ydelta;
     kWarning() << "renderRect:" << renderRect;
-    kWarning() << "content:" << content();
 #endif
 
     QImage resImg( renderRect.width(), renderRect.height(), QImage::Format_RGB32 );
@@ -234,8 +233,7 @@ int KTxt::Document::pages()
 QString KTxt::Document::at( int page )
 {
     // TODO: check is such page exist
-    m_fileStream->skipRawData( 0 );
-    m_fileStream->skipRawData( page * CHARS_PER_PAGE );
+    Q_ASSERT( m_fileStream->seek( page * CHARS_PER_PAGE ) );
 
     memset( buffer, 0, CHARS_PER_PAGE );
     int bytesRead = m_fileStream->readRawData( buffer, CHARS_PER_PAGE );
