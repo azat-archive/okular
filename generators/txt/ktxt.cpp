@@ -26,8 +26,6 @@
 #include <klocale.h>
 #include <kencodingprober.h>
 
-#include <stdio.h>
-
 
 // ImageCacheItem
 
