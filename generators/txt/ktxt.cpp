@@ -47,8 +47,8 @@ class ImageCacheItem
 // KTxt::Page
 
 KTxt::Page::Page( const QString& content )
-    : m_width( 1200 )
-    , m_height ( 1980 )
+    : m_width( 1920 ) // TODO: get screen width
+    , m_height ( 1080 ) // TODO: get screen height
     , m_content( content )
 {
 }
