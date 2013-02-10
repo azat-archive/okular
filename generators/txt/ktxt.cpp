@@ -45,7 +45,7 @@ class ImageCacheItem
 // KTxt::Page
 
 KTxt::Page::Page( const QString& content )
-    : m_width( 1920 ) // TODO: get screen width
+    : m_width( 1080 ) // TODO: get screen width / 2
     , m_height ( 1080 ) // TODO: get screen height
     , m_content( content )
 {
@@ -209,7 +209,9 @@ class KTxt::Document
 
     private:
         // TODO: portability to old compilers
-        static const int CHARS_PER_PAGE = 3000;
+        // TODO: if we already have file in unicode, increase double CHARS_PER_PAGE const
+        // TODO: generate CHARS_PER_PAGE on the basis of font
+        static const int CHARS_PER_PAGE = 6000;
 
         QFile *m_file;
         QDataStream *m_fileStream;
@@ -240,8 +242,6 @@ QString KTxt::Document::at( int page )
         kWarning() << "Can't read"  << page << "page";
         return "";
     }
-
-    // TODO: if we already have file in unicode, increase double CHARS_PER_PAGE const
 
     kWarning() << "bytesRead:" << bytesRead;
     return toUnicode( QByteArray(  buffer, bytesRead ) );
