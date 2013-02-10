@@ -42,7 +42,7 @@ class KTxt
                 int dpi() const;
                 int orientation() const;
                 QString content() const;
-                QImage generateImageTile( int width, int row, int xdelta, int height, int col, int ydelta ) const;
+                QImage generateImageTile( int width, int xdelta, int height, int ydelta ) const;
 
             private:
                 Page( const QString& content );

@@ -82,20 +82,16 @@ QString KTxt::Page::content() const
     return m_content;
 }
 
-QImage KTxt::Page::generateImageTile( int width, int row, int xdelta, int height, int col, int ydelta ) const
+QImage KTxt::Page::generateImageTile( int width, int xdelta, int height, int ydelta ) const
 {
-    QRect renderRect(row * xdelta, col * ydelta, 0, 0 );
-    renderRect.setHeight(qMin( height - renderRect.y(), ydelta ));
-    renderRect.setWidth(qMin( width - renderRect.x(), xdelta ));
-    QRect pageRect(0, 0, width, height);
+    QRect renderRect(0, 0, qMin( width, xdelta ), qMin( height, ydelta ) );
 
     // TODO: replace kWarning() by kDebug()
 #ifdef KTXT_DEBUG
-    kWarning()  << "width:" << width << ", row:" << row
-                << ", xdelta:" << xdelta << ", height:" << height
-                << ", col:" << col << ", ydelta:" << ydelta;
+    kWarning()  << "width:" << width << ", xdelta:" << xdelta
+                << ", height:" << height << ", ydelta:" << ydelta;
     kWarning() << "renderRect:" << renderRect;
-    kWarning() << "pageRect:" << pageRect;
+    kWarning() << "content:" << content();
 #endif
 
     QImage resImg( renderRect.width(), renderRect.height(), QImage::Format_RGB32 );
@@ -249,6 +245,9 @@ QString KTxt::Document::at( int page )
         return "";
     }
 
+    // TODO: if we already have file in unicode, increase double CHARS_PER_PAGE const
+
+    kWarning() << "bytesRead:" << bytesRead;
     return toUnicode( QByteArray(  buffer, bytesRead ) );
 }
 
@@ -272,7 +271,9 @@ QByteArray KTxt::Document::detectEncoding( const QByteArray &array )
 
 QString KTxt::Document::toUnicode( const QByteArray &array )
 {
-    return QTextCodec::codecForName( detectEncoding( array ) )->toUnicode( array );
+    QString unicoded = QTextCodec::codecForName( detectEncoding( array ) )->toUnicode( array );
+    kWarning() << "bytesRead:" << unicoded.length();
+    return unicoded;
 }
 
 class KTxt::Private
@@ -425,33 +426,7 @@ QImage KTxt::image( int page, int width, int height, int rotation )
     static const int xdelta = 1500;
     static const int ydelta = 1500;
 
-    int xparts = width / xdelta + 1;
-    int yparts = height / ydelta + 1;
-
-    QImage newimg;
-
-    if ( ( xparts == 1 ) && ( yparts == 1 ) )
-    {
-         // only one part -- render at once with no need to auxiliary image
-         newimg = txtPage->generateImageTile( width, 0, xdelta, height, 0, ydelta );
-    }
-    else
-    {
-        // more than one part -- need to render piece-by-piece and to compose
-        // the results
-        newimg = QImage( width, height, QImage::Format_RGB32 );
-        QPainter p;
-        p.begin( &newimg );
-        int parts = xparts * yparts;
-        for ( int i = 0; i < parts; ++i )
-        {
-            int row = i % xparts;
-            int col = i / xparts;
-            QImage tempp = txtPage->generateImageTile( width, row, xdelta, height, col, ydelta );
-            p.drawImage( row * xdelta, col * ydelta, tempp );
-        }
-        p.end();
-    }
+    QImage newimg = txtPage->generateImageTile( width, xdelta, height, ydelta );
 
     if ( d->m_cacheEnabled )
     {
