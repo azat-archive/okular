@@ -8,17 +8,21 @@
  ***************************************************************************/
 
 
-#ifndef _TXT_GENERATOR_H_
-#define _TXT_GENERATOR_H_
+#include <QtGui/QTextDocument>
 
-
-#include <core/textdocumentgenerator.h>
-
-class TxtGenerator : public Okular::TextDocumentGenerator
+namespace Txt
 {
-    public:
-        TxtGenerator( QObject *parent, const QVariantList &args );
-        ~TxtGenerator() {}
-};
+    class Document : public QTextDocument
+    {
+        public:
+            Document( QString fileName );
+            ~Document();
 
-#endif
+        private:
+            QByteArray m_detectedEncoding;
+
+            // TODO: write a better detecter, based on some number of chunks
+            QByteArray detectEncoding( const QByteArray &array );
+            QString toUnicode( const QByteArray &array );
+    };
+}

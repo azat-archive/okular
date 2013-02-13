@@ -7,18 +7,25 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-
-#ifndef _TXT_GENERATOR_H_
-#define _TXT_GENERATOR_H_
-
+#ifndef EPUB_CONVERTER_H
+#define EPUB_CONVERTER_H
 
 #include <core/textdocumentgenerator.h>
+#include <core/document.h>
 
-class TxtGenerator : public Okular::TextDocumentGenerator
+namespace Txt
 {
+    class Converter : public Okular::TextDocumentConverter
+    {
     public:
-        TxtGenerator( QObject *parent, const QVariantList &args );
-        ~TxtGenerator() {}
-};
+        Converter();
+        ~Converter();
+
+        virtual QTextDocument *convert( const QString &fileName );
+
+    private:
+    	QTextDocument *m_textDocument;
+    };
+}
 
 #endif

@@ -9,7 +9,8 @@ add_definitions(-DKTXT_DEBUG=1)
 
 set(okularGenerator_txt_SRCS
    generator_txt.cpp
-   ktxt.cpp
+   converter.cpp
+   document.cpp
 )
 
 
@@ -24,5 +25,3 @@ install(TARGETS okularGenerator_txt DESTINATION ${PLUGIN_INSTALL_DIR})
 
 install( FILES libokularGenerator_txt.desktop okularTxt.desktop  DESTINATION  ${SERVICES_INSTALL_DIR} )
 install( PROGRAMS okularApplication_txt.desktop active-documentviewer_txt.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
-
-
