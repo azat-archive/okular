@@ -20,6 +20,7 @@
 #include <qtextstream.h>
 #include <qdatastream.h>
 #include <qtextcodec.h>
+#include <qmath.h>
 
 
 #include <kdebug.h>
@@ -224,10 +225,9 @@ class KTxt::Document
         QString toUnicode( const QByteArray &array );
 };
 
-// TODO: add ceil
 int KTxt::Document::pages()
 {
-    return (m_file->size() / CHARS_PER_PAGE);
+    return qCeil( (float)m_file->size() / CHARS_PER_PAGE );
 }
 
 QString KTxt::Document::at( int page )
