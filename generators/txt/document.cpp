@@ -20,7 +20,7 @@
 using namespace Txt;
 
 Document::Document( QString fileName )
-	: m_detectedEncoding( "" )
+    : m_detectedEncoding( "" )
 {
 #ifdef KTXT_DEBUG
     kWarning() << "Opening file" << fileName;
@@ -34,7 +34,7 @@ Document::Document( QString fileName )
     }
 
     QByteArray buffer = plainFile.readAll();
-	setPlainText( toUnicode(buffer) );
+    setPlainText( toUnicode(buffer) );
 }
 
 Document::~Document()
