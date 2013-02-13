@@ -46,8 +46,8 @@ class ImageCacheItem
 // KTxt::Page
 
 KTxt::Page::Page( const QString& content )
-    : m_width( 1080 ) // TODO: get screen width / 2
-    , m_height ( 1080 ) // TODO: get screen height
+    : m_width( 1080 ) // TODO: get window width / 2, and handle window resize
+    , m_height ( 1080 ) // TODO: get window height, and handle window resize
     , m_content( content )
 {
 }
@@ -192,9 +192,13 @@ class KTxt::Document
             , m_fileStream( NULL )
             , m_detectedEncoding( "" )
         {
+#ifdef KTXT_DEBUG
+            kWarning() << "Opening file" << fileName;
+#endif
+
             // TODO
             if ( !m_file->open( QIODevice::ReadOnly | QIODevice::Text) )
-                kWarning() << "Can't open file '" << fileName << "'";
+                kWarning() << "Can't open file" << fileName;
             m_fileStream = new QDataStream( m_file );
         }
 
@@ -239,11 +243,13 @@ QString KTxt::Document::at( int page )
     int bytesRead = m_fileStream->readRawData( buffer, CHARS_PER_PAGE );
     if ( bytesRead == -1 )
     {
-        kWarning() << "Can't read"  << page << "page";
+        kWarning() << "Can't read" << page << "page";
         return "";
     }
 
-    kWarning() << "bytesRead:" << bytesRead;
+#ifdef KTXT_DEBUG
+    kWarning() << "bytesRead" << bytesRead;
+#endif
     return toUnicode( QByteArray(  buffer, bytesRead ) );
 }
 
@@ -268,7 +274,10 @@ QByteArray KTxt::Document::detectEncoding( const QByteArray &array )
 QString KTxt::Document::toUnicode( const QByteArray &array )
 {
     QString unicoded = QTextCodec::codecForName( detectEncoding( array ) )->toUnicode( array );
-    kWarning() << "bytesRead:" << unicoded.length();
+
+#ifdef KTXT_DEBUG
+    kWarning() << "bytesRead" << unicoded.length();
+#endif
     return unicoded;
 }
 
