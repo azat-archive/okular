@@ -20,7 +20,6 @@
 using namespace Txt;
 
 Document::Document( QString fileName )
-    : m_detectedEncoding( "" )
 {
 #ifdef KTXT_DEBUG
     kWarning() << "Opening file" << fileName;
@@ -43,25 +42,27 @@ Document::~Document()
 
 QByteArray Document::detectEncoding( const QByteArray &array )
 {
-    if ( !m_detectedEncoding.isEmpty() )
-        return m_detectedEncoding;
-
     // TODO: see to "katetextloader.h"
     KEncodingProber prober(KEncodingProber::Universal);
     prober.feed(array);
     if (!prober.confidence() > 0.5)
     {
-        kWarning() << "Can't detect charsert";
+        kWarning() << "Can't detect charset";
         return "";
     }
 
 #ifdef KTXT_DEBUG
     kWarning() << "Detected" << prober.encoding() << "encoding"; 
 #endif
-    return ( m_detectedEncoding = prober.encoding() );
+    return prober.encoding();
 }
 
 QString Document::toUnicode( const QByteArray &array )
 {
-    return QTextCodec::codecForName( detectEncoding( array ) )->toUnicode( array );
+    QByteArray encoding = detectEncoding( array );
+    if ( encoding.isEmpty() )
+    {
+        return "";
+    }
+    return QTextCodec::codecForName( encoding )->toUnicode( array );
 }
