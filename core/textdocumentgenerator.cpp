@@ -361,8 +361,6 @@ QImage TextDocumentGeneratorPrivate::image( PixmapRequest * request )
     image.fill( Qt::white );
 
     QPainter p;
-    // TODO: use connect() to installing font
-    p.setFont( Okular::SettingsCore::font() );
     p.begin( &image );
 
     qreal width = request->width();
@@ -378,6 +376,8 @@ QImage TextDocumentGeneratorPrivate::image( PixmapRequest * request )
 #ifdef OKULAR_TEXTDOCUMENT_THREADED_RENDERING
     q->userMutex()->lock();
 #endif
+    // TODO: use connect() to installing font and re-render documents
+    mDocument->setDefaultFont( Okular::SettingsCore::font() );
     mDocument->drawContents( &p, rect );
 #ifdef OKULAR_TEXTDOCUMENT_THREADED_RENDERING
     q->userMutex()->unlock();
