@@ -30,6 +30,8 @@
 
 #include "document.h"
 
+#include <settings_core.h>
+
 using namespace Okular;
 
 /**
@@ -359,6 +361,8 @@ QImage TextDocumentGeneratorPrivate::image( PixmapRequest * request )
     image.fill( Qt::white );
 
     QPainter p;
+    // TODO: use connect() to installing font
+    p.setFont( Okular::SettingsCore::font() );
     p.begin( &image );
 
     qreal width = request->width();
