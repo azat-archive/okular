@@ -166,12 +166,6 @@ class OKULAR_EXPORT TextDocumentGenerator : public Generator
         const Okular::DocumentInfo* generateDocumentInfo();
         const Okular::DocumentSynopsis* generateDocumentSynopsis();
 
-        // [INHERITED] called when the font has been changed by the user
-        void fontChanged( QFont font, QFont oldFont );
-
-        // Reopen document.
-        void reloadDocument();
-
     protected:
         bool doCloseDocument();
         Okular::TextPage* textPage( Okular::Page *page );
@@ -179,9 +173,6 @@ class OKULAR_EXPORT TextDocumentGenerator : public Generator
     private:
         Q_DECLARE_PRIVATE( TextDocumentGenerator )
         Q_DISABLE_COPY( TextDocumentGenerator )
-
-        QString m_fileName;
-        QVector<Okular::Page*> *m_pagesVector;
 
         Q_PRIVATE_SLOT( d_func(), void addAction( Action*, int, int ) )
         Q_PRIVATE_SLOT( d_func(), void addAnnotation( Annotation*, int, int ) )

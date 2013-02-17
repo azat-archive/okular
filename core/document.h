@@ -103,6 +103,11 @@ class OKULAR_EXPORT Document : public QObject
         void closeDocument();
 
         /**
+         * Reopen the document.
+         */
+        bool reopenDocument();
+
+        /**
          * Registers a new @p observer for the document.
          */
         void addObserver( DocumentObserver *observer );
@@ -821,6 +826,10 @@ class OKULAR_EXPORT Document : public QObject
         friend class DocumentPrivate;
         /// @endcond
         DocumentPrivate *const d;
+
+        QString m_docFile;
+        KUrl m_url;
+        KMimeType::Ptr m_mime;
 
         Q_DISABLE_COPY( Document )
 

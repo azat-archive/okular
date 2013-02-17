@@ -908,7 +908,6 @@ bool DocumentPrivate::openDocumentInternal( const KService::Ptr& offer, bool iss
         KGlobal::locale()->insertCatalog( catalogName );
 
     m_generator->d_func()->m_document = this;
-    m_generator->fontChanged( SettingsCore::font(), QFont() );
 
     // connect error reporting signals
     QObject::connect( m_generator, SIGNAL(error(QString,int)), m_parent, SIGNAL(error(QString,int)) );
@@ -1450,8 +1449,7 @@ void DocumentPrivate::_o_configChanged()
 {
     QFont newFont = SettingsCore::font();
     if (newFont != m_font) {
-        if ( m_generator )
-            m_generator->fontChanged( newFont, m_font );
+        m_parent->reopenDocument();
         m_font = newFont;
     }
 
@@ -1903,6 +1901,11 @@ static bool kserviceMoreThan( const KService::Ptr &s1, const KService::Ptr &s2 )
 
 bool Document::openDocument( const QString & docFile, const KUrl& url, const KMimeType::Ptr &_mime )
 {
+    // Store, to reopen
+    m_docFile = docFile;
+    m_url = url;
+    m_mime = _mime;
+
     KMimeType::Ptr mime = _mime;
     QByteArray filedata;
     qint64 document_size = -1;
@@ -2250,6 +2253,12 @@ void Document::closeDocument()
     d->m_documentInfo = 0;
 
     AudioPlayer::instance()->d->m_currentDocument = KUrl();
+}
+
+bool Document::reopenDocument()
+{
+    closeDocument();
+    return openDocument(m_docFile, m_url, m_mime);
 }
 
 void Document::addObserver( DocumentObserver * pObserver )
