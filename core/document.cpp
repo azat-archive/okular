@@ -33,6 +33,7 @@
 #include <QtGui/QLabel>
 #include <QtGui/QPrinter>
 #include <QtGui/QPrintDialog>
+#include <QFont>
 
 #include <kaboutdata.h>
 #include <kauthorized.h>
@@ -907,6 +908,7 @@ bool DocumentPrivate::openDocumentInternal( const KService::Ptr& offer, bool iss
         KGlobal::locale()->insertCatalog( catalogName );
 
     m_generator->d_func()->m_document = this;
+    m_generator->fontChanged( SettingsCore::font(), QFont() );
 
     // connect error reporting signals
     QObject::connect( m_generator, SIGNAL(error(QString,int)), m_parent, SIGNAL(error(QString,int)) );
@@ -1446,6 +1448,13 @@ void DocumentPrivate::refreshPixmaps( int pageNumber )
 
 void DocumentPrivate::_o_configChanged()
 {
+    QFont newFont = SettingsCore::font();
+    if (newFont != m_font) {
+        if ( m_generator )
+            m_generator->fontChanged( newFont, m_font );
+        m_font = newFont;
+    }
+
     // free text pages if needed
     calculateMaxTextPages();
     while (m_allocatedTextPagesFifo.count() > m_maxAllocatedTextPages)

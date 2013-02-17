@@ -315,6 +315,10 @@ void Generator::pageSizeChanged( const PageSize &, const PageSize & )
 {
 }
 
+void Generator::fontChanged( QFont font, QFont oldFont )
+{
+}
+
 bool Generator::print( QPrinter& )
 {
     return false;

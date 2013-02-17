@@ -30,8 +30,6 @@
 
 #include "document.h"
 
-#include <settings_core.h>
-
 using namespace Okular;
 
 /**
@@ -274,6 +272,9 @@ bool TextDocumentGenerator::loadDocument( const QString & fileName, QVector<Okul
         return false;
     }
 
+    m_fileName = fileName;
+    m_pagesVector = &pagesVector;
+
     d->generateTitleInfos();
     d->generateLinkInfos();
     d->generateAnnotationInfos();
@@ -376,8 +377,8 @@ QImage TextDocumentGeneratorPrivate::image( PixmapRequest * request )
 #ifdef OKULAR_TEXTDOCUMENT_THREADED_RENDERING
     q->userMutex()->lock();
 #endif
-    // TODO: use connect() to installing font and re-render documents
-    mDocument->setDefaultFont( Okular::SettingsCore::font() );
+    kWarning() << "Set font to" << mFont;
+    mDocument->setDefaultFont( mFont );
     mDocument->drawContents( &p, rect );
 #ifdef OKULAR_TEXTDOCUMENT_THREADED_RENDERING
     q->userMutex()->unlock();
@@ -486,6 +487,27 @@ bool TextDocumentGenerator::exportTo( const QString &fileName, const Okular::Exp
 #endif
     }
     return false;
+}
+
+void TextDocumentGenerator::fontChanged( QFont font, QFont oldFont )
+{
+    Q_D( TextDocumentGenerator );
+
+    d->mFont = font;
+    reloadDocument();
+}
+
+void TextDocumentGenerator::reloadDocument()
+{
+    Q_D( TextDocumentGenerator );
+    if ( !d->mDocument )
+        return;
+
+    if ( !m_pagesVector ) {
+        kWarning() << "No pages";
+        return;
+    }
+    loadDocument( m_fileName, *m_pagesVector );
 }
 
 #include "textdocumentgenerator.moc"

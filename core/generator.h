@@ -35,6 +35,7 @@ class QByteArray;
 class QMutex;
 class QPrinter;
 class QPrintDialog;
+class QFont;
 class KIcon;
 
 namespace Okular {
@@ -335,6 +336,11 @@ class OKULAR_EXPORT Generator : public QObject
          * This method is called when the page size has been changed by the user.
          */
         virtual void pageSizeChanged( const PageSize &pageSize, const PageSize &oldPageSize );
+
+        /**
+         * This method is called when the font has been changed by the user.
+         */
+        virtual void fontChanged( QFont font, QFont oldFont );
 
         /**
          * This method is called to print the document to the given @p printer.

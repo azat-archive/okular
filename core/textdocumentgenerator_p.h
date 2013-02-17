@@ -188,6 +188,8 @@ class TextDocumentGeneratorPrivate : public GeneratorPrivate
           Annotation *annotation;
         };
         QList<AnnotationInfo> mAnnotationInfos;
+
+        QFont mFont;
 };
 
 }
