@@ -21,7 +21,7 @@ using namespace Txt;
 
 Document::Document( QString fileName )
 {
-#ifdef KTXT_DEBUG
+#ifdef TXT_DEBUG
     kDebug() << "Opening file" << fileName;
 #endif
 
@@ -51,7 +51,7 @@ QByteArray Document::detectEncoding( const QByteArray &array )
         return QString();
     }
 
-#ifdef KTXT_DEBUG
+#ifdef TXT_DEBUG
     kDebug() << "Detected" << prober.encoding() << "encoding";
 #endif
     return prober.encoding();
