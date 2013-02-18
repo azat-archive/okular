@@ -48,7 +48,7 @@ QByteArray Document::detectEncoding( const QByteArray &array )
     if (!prober.confidence() > 0.5)
     {
         kDebug() << "Can't detect charset";
-        return QString();
+        return QByteArray();
     }
 
 #ifdef TXT_DEBUG
