@@ -22,13 +22,13 @@ using namespace Txt;
 Document::Document( QString fileName )
 {
 #ifdef KTXT_DEBUG
-    kWarning() << "Opening file" << fileName;
+    kDebug() << "Opening file" << fileName;
 #endif
 
     QFile plainFile( fileName );
     if ( !plainFile.open( QIODevice::ReadOnly | QIODevice::Text ) )
     {
-        kWarning() << "Can't open file" << plainFile.fileName();
+        kDebug() << "Can't open file" << plainFile.fileName();
         return;
     }
 
@@ -47,12 +47,12 @@ QByteArray Document::detectEncoding( const QByteArray &array )
     prober.feed(array);
     if (!prober.confidence() > 0.5)
     {
-        kWarning() << "Can't detect charset";
+        kDebug() << "Can't detect charset";
         return "";
     }
 
 #ifdef KTXT_DEBUG
-    kWarning() << "Detected" << prober.encoding() << "encoding"; 
+    kDebug() << "Detected" << prober.encoding() << "encoding";
 #endif
     return prober.encoding();
 }

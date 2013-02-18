@@ -3,8 +3,6 @@ include_directories(
    ${CMAKE_BINARY_DIR}/okular
 )
 
-add_definitions(-DKTXT_DEBUG=1)
-
 ########### next target ###############
 
 set(okularGenerator_txt_SRCS
