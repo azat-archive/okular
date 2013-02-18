@@ -24,7 +24,7 @@ namespace Txt
         virtual QTextDocument *convert( const QString &fileName );
 
     private:
-   	    QTextDocument *m_textDocument;
+        QTextDocument *m_textDocument;
     };
 }
 
