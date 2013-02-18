@@ -7,8 +7,8 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#ifndef EPUB_CONVERTER_H
-#define EPUB_CONVERTER_H
+#ifndef TXT_CONVERTER_H
+#define TXT_CONVERTER_H
 
 #include <core/textdocumentgenerator.h>
 #include <core/document.h>
