@@ -48,7 +48,7 @@ QByteArray Document::detectEncoding( const QByteArray &array )
     if (!prober.confidence() > 0.5)
     {
         kDebug() << "Can't detect charset";
-        return "";
+        return QString();
     }
 
 #ifdef KTXT_DEBUG
@@ -62,7 +62,7 @@ QString Document::toUnicode( const QByteArray &array )
     QByteArray encoding = detectEncoding( array );
     if ( encoding.isEmpty() )
     {
-        return "";
+        return QString();
     }
     return QTextCodec::codecForName( encoding )->toUnicode( array );
 }
