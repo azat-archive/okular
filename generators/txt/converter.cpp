@@ -8,15 +8,9 @@
  ***************************************************************************/
 
 
-#include "converter.h"
-
 #include <QtGui/QTextFrame>
-#include <QTextDocumentFragment>
 
-#include <kdebug.h>
-#include <klocale.h>
-#include <core/action.h>
-
+#include "converter.h"
 #include "document.h"
 
 using namespace Txt;
