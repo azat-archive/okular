@@ -1447,12 +1447,6 @@ void DocumentPrivate::refreshPixmaps( int pageNumber )
 
 void DocumentPrivate::_o_configChanged()
 {
-    QFont newFont = SettingsCore::font();
-    if (newFont != m_font) {
-        m_parent->reopenDocument();
-        m_font = newFont;
-    }
-
     // free text pages if needed
     calculateMaxTextPages();
     while (m_allocatedTextPagesFifo.count() > m_maxAllocatedTextPages)
@@ -1901,11 +1895,6 @@ static bool kserviceMoreThan( const KService::Ptr &s1, const KService::Ptr &s2 )
 
 bool Document::openDocument( const QString & docFile, const KUrl& url, const KMimeType::Ptr &_mime )
 {
-    // Store, to reopen
-    m_docFile = docFile;
-    m_url = url;
-    m_mime = _mime;
-
     KMimeType::Ptr mime = _mime;
     QByteArray filedata;
     qint64 document_size = -1;
@@ -2253,12 +2242,6 @@ void Document::closeDocument()
     d->m_documentInfo = 0;
 
     AudioPlayer::instance()->d->m_currentDocument = KUrl();
-}
-
-bool Document::reopenDocument()
-{
-    closeDocument();
-    return openDocument(m_docFile, m_url, m_mime);
 }
 
 void Document::addObserver( DocumentObserver * pObserver )

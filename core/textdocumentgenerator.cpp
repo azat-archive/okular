@@ -218,6 +218,8 @@ TextDocumentGenerator::TextDocumentGenerator( TextDocumentConverter *converter, 
     : Okular::Generator( *new TextDocumentGeneratorPrivate( converter ), parent, args )
 {
     converter->d_ptr->mParent = d_func();
+    Q_D( TextDocumentGenerator );
+    d->mFont = SettingsCore::font();
 
     setFeature( TextExtraction );
     setFeature( PrintNative );
@@ -375,7 +377,7 @@ QImage TextDocumentGeneratorPrivate::image( PixmapRequest * request )
 #ifdef OKULAR_TEXTDOCUMENT_THREADED_RENDERING
     q->userMutex()->lock();
 #endif
-    mDocument->setDefaultFont( SettingsCore::font() );
+    mDocument->setDefaultFont( mFont );
     mDocument->drawContents( &p, rect );
 #ifdef OKULAR_TEXTDOCUMENT_THREADED_RENDERING
     q->userMutex()->unlock();
@@ -484,6 +486,22 @@ bool TextDocumentGenerator::exportTo( const QString &fileName, const Okular::Exp
 #endif
     }
     return false;
+}
+
+bool TextDocumentGenerator::reparseConfig()
+{
+    Q_D( TextDocumentGenerator );
+
+    if ( SettingsCore::font() != d->mFont ) {
+        d->mFont = SettingsCore::font();
+        return true;
+    }
+
+    return false;
+}
+
+void TextDocumentGenerator::addPages( KConfigDialog * )
+{
 }
 
 #include "textdocumentgenerator.moc"

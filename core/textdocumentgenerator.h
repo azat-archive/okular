@@ -10,6 +10,10 @@
 #ifndef _OKULAR_TEXTDOCUMENTGENERATOR_H_
 #define _OKULAR_TEXTDOCUMENTGENERATOR_H_
 
+#include <QFont>
+
+#include <interfaces/configinterface.h>
+
 #include "okular_export.h"
 
 #include "document.h"
@@ -131,13 +135,14 @@ class OKULAR_EXPORT TextDocumentConverter : public QObject
  * This generator provides a document in the form of a QTextDocument object,
  * parsed using a specialized TextDocumentConverter.
  */
-class OKULAR_EXPORT TextDocumentGenerator : public Generator
+class OKULAR_EXPORT TextDocumentGenerator : public Generator, public Okular::ConfigInterface
 {
     /// @cond PRIVATE
     friend class TextDocumentConverter;
     /// @endcond
 
     Q_OBJECT
+    Q_INTERFACES( Okular::ConfigInterface )
 
     public:
         /**
@@ -162,6 +167,10 @@ class OKULAR_EXPORT TextDocumentGenerator : public Generator
         // [INHERITED] text exporting
         Okular::ExportFormat::List exportFormats() const;
         bool exportTo( const QString &fileName, const Okular::ExportFormat &format );
+
+        // [INHERITED] reparse configuration
+        bool reparseConfig();
+        void addPages( KConfigDialog * );
 
         const Okular::DocumentInfo* generateDocumentInfo();
         const Okular::DocumentSynopsis* generateDocumentSynopsis();
