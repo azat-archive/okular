@@ -254,7 +254,7 @@
      <property name="title">
       <string>View Options</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout" columnstretch="0,1">
+     <layout class="QGridLayout" name="gridLayout" columnstretch="0,1,0">
       <item row="0" column="0">
        <widget class="QLabel" name="columnLabel">
         <property name="text">
@@ -298,6 +298,9 @@
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
+        <property name="buddy">
+         <cstring>kcfg_Font</cstring>
+        </property>
        </widget>
       </item>
       <item row="2" column="0">
@@ -315,6 +318,9 @@ For files which were opened before the previous zoom is applied.</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>kcfg_ZoomMode</cstring>
         </property>
        </widget>
       </item>
