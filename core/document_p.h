@@ -19,7 +19,6 @@
 #include <QtCore/QMap>
 #include <QtCore/QMutex>
 #include <QtCore/QPointer>
-#include <QFont>
 
 #include <kcomponentdata.h>
 #include <kservicetypetrader.h>
@@ -259,8 +258,6 @@ class DocumentPrivate
         bool m_annotationsNeedSaveAs;
         bool m_annotationBeingMoved; // is an annotation currently being moved?
         bool m_showWarningLimitedAnnotSupport;
-
-        QFont m_font;
 };
 
 }
