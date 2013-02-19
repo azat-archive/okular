@@ -33,7 +33,6 @@
 #include <QtGui/QLabel>
 #include <QtGui/QPrinter>
 #include <QtGui/QPrintDialog>
-#include <QFont>
 
 #include <kaboutdata.h>
 #include <kauthorized.h>
