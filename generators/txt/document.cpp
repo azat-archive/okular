@@ -69,11 +69,12 @@ QString Document::toUnicode( const QByteArray &array )
         encoding = detectEncoding( array.mid( i, chunkSize ) );
         i += chunkSize;
     }
-    kDebug() << "Encoding detected based on" << i << "chars";
 
     if ( encoding.isEmpty() )
     {
         return QString();
     }
+
+    kDebug() << "Encoding detected based on" << i << "chars";
     return QTextCodec::codecForName( encoding )->toUnicode( array );
 }
