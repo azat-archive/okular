@@ -59,7 +59,18 @@ QByteArray Document::detectEncoding( const QByteArray &array )
 
 QString Document::toUnicode( const QByteArray &array )
 {
-    const QByteArray encoding = detectEncoding( array );
+    QByteArray encoding;
+    int i = 0;
+    int chunkSize = 3000; // ~= number of symbols in page.
+
+    // Try to detect encoding.
+    while ( encoding.isEmpty() && i < array.size() )
+    {
+        encoding = detectEncoding( array.mid( i, chunkSize ) );
+        i += chunkSize;
+    }
+    kDebug() << "Encoding detected based on" << i << "chars";
+
     if ( encoding.isEmpty() )
     {
         return QString();
