@@ -28,6 +28,8 @@ class QLabel;
 // [private widget] lineEdit for entering/validating page numbers
 class PagesEdit : public KLineEdit
 {
+    Q_OBJECT
+
     public:
         PagesEdit( MiniBar * parent );
         void setText( const QString & );
@@ -37,6 +39,9 @@ class PagesEdit : public KLineEdit
         void focusOutEvent( QFocusEvent * e );
         void mousePressEvent( QMouseEvent * e );
         void wheelEvent( QWheelEvent * e );
+
+    private slots:
+        void updatePalette();
 
     private:
         MiniBar * m_miniBar;

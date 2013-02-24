@@ -209,19 +209,13 @@ ThumbnailList::ThumbnailList( QWidget *parent, Okular::Document *document )
 
     setAcceptDrops( true );
 
-    QPalette pal = palette();
-    // set contents background to the 'base' color
-    QPalette viewportPal = viewport()->palette();
-    viewportPal.setColor( viewport()->backgroundRole(), pal.color( QPalette::Base ) );
-    viewport()->setPalette( viewportPal );
+    viewport()->setBackgroundRole( QPalette::Base );
 
     setWidget( d );
     // widget setup: can be focused by mouse click (not wheel nor tab)
     widget()->setFocusPolicy( Qt::ClickFocus );
     widget()->show();
-    QPalette widgetPal = widget()->palette();
-    widgetPal.setColor( widget()->backgroundRole(), pal.color( QPalette::Base ) );
-    widget()->setPalette( widgetPal );
+    widget()->setBackgroundRole( QPalette::Base );
 
     connect( verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(slotRequestVisiblePixmaps(int)) );
 }
@@ -934,7 +928,7 @@ void ThumbnailWidget::paint( QPainter &p, const QRect &_clipRect )
     const QColor fillColor = m_selected ? pal.color( QPalette::Active, QPalette::Highlight ) : pal.color( QPalette::Active, QPalette::Base );
     p.fillRect( clipRect, fillColor );
     p.setPen( m_selected ? pal.color( QPalette::Active, QPalette::HighlightedText ) : pal.color( QPalette::Active, QPalette::Text ) );
-    p.drawText( 0, m_pixmapHeight + m_margin, width, m_labelHeight, Qt::AlignCenter, QString::number( m_labelNumber ) );
+    p.drawText( 0, m_pixmapHeight + (m_margin - 3), width, m_labelHeight, Qt::AlignCenter, QString::number( m_labelNumber ) );
 
     // draw page outline and pixmap
     if ( clipRect.top() < m_pixmapHeight + m_margin )
