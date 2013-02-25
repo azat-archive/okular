@@ -114,6 +114,9 @@ kde4_add_ui_files(okularcore_SRCS
 
 kde4_add_kcfg_files(okularcore_SRCS conf/settings_core.kcfgc )
 
+kde4_add_kcfg_files(okularcore_SRCS conf/textdocumentssettings.kcfgc )
+kde4_add_ui_files(okularcore_SRCS conf/textdocumentssettingswidget.ui )
+
 kde4_add_library(okularcore SHARED ${okularcore_SRCS})
 
 # Special handling for linking okularcore on OSX/Apple

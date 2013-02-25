@@ -23,6 +23,8 @@
 #include <QtGui/QTextDocumentWriter>
 #endif
 
+#include <KConfigDialog>
+
 #include "action.h"
 #include "annotations.h"
 #include "page.h"
@@ -30,6 +32,9 @@
 
 #include "document.h"
 #include <settings_core.h>
+#include <textdocumentssettings.h>
+
+#include <ui_textdocumentssettingswidget.h>
 
 using namespace Okular;
 
@@ -500,8 +505,12 @@ bool TextDocumentGenerator::reparseConfig()
     return false;
 }
 
-void TextDocumentGenerator::addPages( KConfigDialog * )
+void TextDocumentGenerator::addPages( KConfigDialog *dlg )
 {
+    Ui_TextDocumentsSettingsWidget settingsWidget;
+    QWidget* w = new QWidget(dlg);
+    settingsWidget.setupUi(w);
+    dlg->addPage(w, TextDocumentsSettings::self(), i18n( "Txt" ), "okular-textdocuments", i18n("Text Based Documents Backend Configuration") );
 }
 
 #include "textdocumentgenerator.moc"

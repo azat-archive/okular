@@ -170,7 +170,7 @@ class OKULAR_EXPORT TextDocumentGenerator : public Generator, public Okular::Con
 
         // [INHERITED] reparse configuration
         bool reparseConfig();
-        void addPages( KConfigDialog * );
+        void addPages( KConfigDialog* dlg );
 
         const Okular::DocumentInfo* generateDocumentInfo();
         const Okular::DocumentSynopsis* generateDocumentSynopsis();

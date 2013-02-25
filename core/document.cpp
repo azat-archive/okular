@@ -3768,6 +3768,7 @@ int Document::configurableGenerators() const
 {
     QString constraint( "([X-KDE-Priority] > 0) and (exist Library) and ([X-KDE-okularHasInternalSettings])" );
     KService::List offers = KServiceTypeTrader::self()->query( "okular/Generator", constraint );
+    kWarning() << "Found" << offers.count() << "configurable generators";
     return offers.count();
 }
 
