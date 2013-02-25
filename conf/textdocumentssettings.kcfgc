@@ -1,0 +1,4 @@
+File=textdocumentssettings.kcfg
+ClassName=TextDocumentsSettings
+Mutators=true
+Singleton=true
