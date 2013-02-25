@@ -59,13 +59,13 @@ QString Document::toUnicode( const QByteArray &array )
             break;
         }
     }
-    kDebug() << "Detected" << prober.encoding() << "encoding";
 
     if ( encoding.isEmpty() )
     {
         return QString();
     }
 
-    kDebug() << "Encoding detected based on" << charsFeeded << "chars";
+    kDebug() << "Detected" << prober.encoding() << "encoding"
+             << "based on" << charsFeeded << "chars";
     return QTextCodec::codecForName( encoding )->toUnicode( array );
 }
