@@ -19,7 +19,6 @@ namespace Txt
             ~Document();
 
         private:
-            QByteArray detectEncoding( const QByteArray &array );
             QString toUnicode( const QByteArray &array );
     };
 }

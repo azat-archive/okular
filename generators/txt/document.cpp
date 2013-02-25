@@ -40,41 +40,32 @@ Document::~Document()
 {
 }
 
-QByteArray Document::detectEncoding( const QByteArray &array )
-{
-    // TODO: see to "katetextloader.h"
-    KEncodingProber prober(KEncodingProber::Universal);
-    prober.feed(array);
-    if (!prober.confidence() > 0.5)
-    {
-        kDebug() << "Can't detect charset";
-        return QByteArray();
-    }
-
-#ifdef TXT_DEBUG
-    kDebug() << "Detected" << prober.encoding() << "encoding";
-#endif
-    return prober.encoding();
-}
-
 QString Document::toUnicode( const QByteArray &array )
 {
     QByteArray encoding;
-    int i = 0;
+    KEncodingProber prober(KEncodingProber::Universal);
+    int charsFeeded = 0;
     int chunkSize = 3000; // ~= number of symbols in page.
 
     // Try to detect encoding.
-    while ( encoding.isEmpty() && i < array.size() )
+    while ( encoding.isEmpty() && charsFeeded < array.size() )
     {
-        encoding = detectEncoding( array.mid( i, chunkSize ) );
-        i += chunkSize;
+        prober.feed( array.mid( charsFeeded, chunkSize ) );
+        charsFeeded += chunkSize;
+
+        if (prober.confidence() >= 0.5)
+        {
+            encoding = prober.encoding();
+            break;
+        }
     }
+    kDebug() << "Detected" << prober.encoding() << "encoding";
 
     if ( encoding.isEmpty() )
     {
         return QString();
     }
 
-    kDebug() << "Encoding detected based on" << i << "chars";
+    kDebug() << "Encoding detected based on" << charsFeeded << "chars";
     return QTextCodec::codecForName( encoding )->toUnicode( array );
 }
