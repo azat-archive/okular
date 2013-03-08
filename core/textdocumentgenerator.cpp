@@ -22,6 +22,7 @@
 #if QT_VERSION >= 0x040500
 #include <QtGui/QTextDocumentWriter>
 #endif
+#include <KColorScheme>
 
 #include "action.h"
 #include "annotations.h"
@@ -356,7 +357,8 @@ QImage TextDocumentGeneratorPrivate::image( PixmapRequest * request )
 #endif
 
     QImage image( request->width(), request->height(), QImage::Format_ARGB32 );
-    image.fill( Qt::white );
+    const KColorScheme scheme( QPalette::Active, KColorScheme::View );
+    image.fill( scheme.background().color() );
 
     QPainter p;
     p.begin( &image );
