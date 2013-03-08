@@ -13,6 +13,7 @@
 
 #include <kaboutdata.h>
 #include <klocale.h>
+#include <kconfigdialog.h>
 
 static KAboutData createAboutData()
 {
@@ -35,4 +36,9 @@ OKULAR_EXPORT_PLUGIN( FictionBookGenerator, createAboutData() )
 FictionBookGenerator::FictionBookGenerator( QObject *parent, const QVariantList &args )
     : Okular::TextDocumentGenerator( new FictionBook::Converter, parent, args )
 {
+}
+
+void FictionBookGenerator::addPages( KConfigDialog* dlg )
+{
+    dlg->addPage( generalSettings(), i18n("FictionBook"), "okular-fictionbook-settings", i18n("FictionBook Backend Configuration") );
 }

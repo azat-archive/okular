@@ -11,6 +11,7 @@
 #define _OKULAR_TEXTDOCUMENTGENERATOR_H_
 
 #include <QFont>
+#include <QWidget>
 
 #include <interfaces/configinterface.h>
 
@@ -21,8 +22,24 @@
 
 class QTextBlock;
 class QTextDocument;
+class QVBoxLayout;
+class QGroupBox;
+class QSpacerItem;
+class KFontComboBox;
 
 namespace Okular {
+
+class OKULAR_EXPORT TextDocumentSettings : public QWidget
+{
+    public:
+        QVBoxLayout *vboxLayout;
+        QGroupBox *groupBox;
+        QVBoxLayout *vboxLayout1;
+        KFontComboBox *kcfg_Font;
+        QSpacerItem *spacerItem;
+
+        TextDocumentSettings();
+};
 
 class TextDocumentConverterPrivate;
 class TextDocumentGenerator;
@@ -170,7 +187,8 @@ class OKULAR_EXPORT TextDocumentGenerator : public Generator, public Okular::Con
 
         // [INHERITED] reparse configuration
         bool reparseConfig();
-        void addPages( KConfigDialog* dlg );
+        // General settings
+        TextDocumentSettings* generalSettings();
 
         const Okular::DocumentInfo* generateDocumentInfo();
         const Okular::DocumentSynopsis* generateDocumentSynopsis();

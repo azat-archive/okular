@@ -12,6 +12,7 @@
 #include "converter.h"
 
 #include <kaboutdata.h>
+#include <kconfigdialog.h>
 
 static KAboutData createAboutData()
 {
@@ -36,3 +37,9 @@ EPubGenerator::EPubGenerator( QObject *parent, const QVariantList &args )
 : Okular::TextDocumentGenerator( new Epub::Converter, parent, args )
 {
 }
+
+void EPubGenerator::addPages( KConfigDialog* dlg )
+{
+  dlg->addPage( generalSettings(), i18n("EPub"), "okular-epub-settings", i18n("EPub Backend Configuration") );
+}
+

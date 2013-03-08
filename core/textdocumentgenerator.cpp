@@ -24,6 +24,10 @@
 #endif
 
 #include <KConfigDialog>
+#include <KFontComboBox>
+#include <QVBoxLayout>
+#include <QGroupBox>
+#include <QSpacerItem>
 
 #include "action.h"
 #include "annotations.h"
@@ -32,11 +36,34 @@
 
 #include "document.h"
 #include <settings_core.h>
-#include <textdocumentssettings.h>
 
-#include <ui_textdocumentssettingswidget.h>
+#include <klocale.h>
 
 using namespace Okular;
+
+TextDocumentSettings::TextDocumentSettings()
+{
+    setObjectName( QString::fromUtf8( "TextDocumentsSettingsWidget" ) );
+    resize( 328, 73 );
+    vboxLayout = new QVBoxLayout( this );
+    vboxLayout->setObjectName( QString::fromUtf8( "vboxLayout" ) );
+    vboxLayout->setContentsMargins( 0, 0, 0, 0 );
+    groupBox = new QGroupBox( this );
+    groupBox->setObjectName( QString::fromUtf8( "groupBox" ) );
+    groupBox->setTitle( tr2i18n( "General Settings", 0 ) );
+    vboxLayout1 = new QVBoxLayout( groupBox );
+    vboxLayout1->setObjectName( QString::fromUtf8( "vboxLayout1" ) );
+    kcfg_Font = new KFontComboBox( groupBox );
+    kcfg_Font->setObjectName( QString::fromUtf8( "kcfg_Font" ) );
+
+    vboxLayout1->addWidget( kcfg_Font );
+    vboxLayout->addWidget( groupBox );
+
+    spacerItem = new QSpacerItem( 10, 5, QSizePolicy::Minimum, QSizePolicy::Expanding );
+    vboxLayout->addItem( spacerItem );
+
+    QMetaObject::connectSlotsByName( this );
+}
 
 /**
  * Generic Converter Implementation
@@ -505,12 +532,9 @@ bool TextDocumentGenerator::reparseConfig()
     return false;
 }
 
-void TextDocumentGenerator::addPages( KConfigDialog *dlg )
+TextDocumentSettings* TextDocumentGenerator::generalSettings()
 {
-    Ui_TextDocumentsSettingsWidget settingsWidget;
-    QWidget* w = new QWidget(dlg);
-    settingsWidget.setupUi(w);
-    dlg->addPage(w, TextDocumentsSettings::self(), i18n( "Txt" ), "okular-textdocuments", i18n("Text Based Documents Backend Configuration") );
+    return new TextDocumentSettings();
 }
 
 #include "textdocumentgenerator.moc"

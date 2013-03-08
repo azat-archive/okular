@@ -254,7 +254,7 @@
      <property name="title">
       <string>View Options</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout" columnstretch="0,1,0">
+     <layout class="QGridLayout" name="gridLayout" columnstretch="0,1">
       <item row="0" column="0">
        <widget class="QLabel" name="columnLabel">
         <property name="text">
@@ -265,6 +265,16 @@
         </property>
         <property name="buddy">
          <cstring>kcfg_ViewColumns</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="KIntSpinBox" name="kcfg_ViewColumns">
+        <property name="minimum">
+         <number>3</number>
+        </property>
+        <property name="maximum">
+         <number>10</number>
         </property>
        </widget>
       </item>
@@ -284,22 +294,16 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_4">
-        <property name="toolTip">
-         <string>Defines font for plain text documents.</string>
+      <item row="1" column="1">
+       <widget class="KIntSpinBox" name="kcfg_ScrollOverlap">
+        <property name="suffix">
+         <string>%</string>
         </property>
-        <property name="whatsThis">
-         <string comment="@info:whatsthis">Defines font for plain text documents.</string>
+        <property name="maximum">
+         <number>50</number>
         </property>
-        <property name="text">
-         <string>&amp;Font:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-        <property name="buddy">
-         <cstring>kcfg_Font</cstring>
+        <property name="singleStep">
+         <number>5</number>
         </property>
        </widget>
       </item>
@@ -324,10 +328,7 @@ For files which were opened before the previous zoom is applied.</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="1" colspan="2">
-       <widget class="KFontComboBox" name="kcfg_Font"/>
-      </item>
-      <item row="2" column="1" colspan="2">
+      <item row="2" column="1">
        <widget class="QComboBox" name="kcfg_ZoomMode">
         <property name="toolTip">
          <string>Defines the default zoom mode for files which were never opened before.
@@ -354,29 +355,6 @@ For files which were opened before the previous zoom is applied.</string>
         </item>
        </widget>
       </item>
-      <item row="1" column="1" colspan="2">
-       <widget class="KIntSpinBox" name="kcfg_ScrollOverlap">
-        <property name="suffix">
-         <string>%</string>
-        </property>
-        <property name="maximum">
-         <number>50</number>
-        </property>
-        <property name="singleStep">
-         <number>5</number>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1" colspan="2">
-       <widget class="KIntSpinBox" name="kcfg_ViewColumns">
-        <property name="minimum">
-         <number>3</number>
-        </property>
-        <property name="maximum">
-         <number>10</number>
-        </property>
-       </widget>
-      </item>
      </layout>
     </widget>
    </item>
@@ -401,16 +379,6 @@ For files which were opened before the previous zoom is applied.</string>
    <extends>QGroupBox</extends>
    <header>kbuttongroup.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>KFontComboBox</class>
-   <extends>KComboBox</extends>
-   <header>kfontcombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
    <class>KIntSpinBox</class>
