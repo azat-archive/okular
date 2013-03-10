@@ -11,11 +11,17 @@
 #define _OKULAR_GENERATOR_EPUB_H_
 #include <core/textdocumentgenerator.h>
 
+class QColor;
+
 class EPubGenerator : public Okular::TextDocumentGenerator
 {
  public:
   EPubGenerator( QObject *parent, const QVariantList &args );
   ~EPubGenerator() {}
+
+ protected:
+  // [INHERITED] from TextDocumentGenerator
+  virtual const QColor& background();
 };
 
 #endif

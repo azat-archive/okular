@@ -17,6 +17,7 @@
 
 class QTextBlock;
 class QTextDocument;
+class QColor;
 
 namespace Okular {
 
@@ -169,6 +170,17 @@ class OKULAR_EXPORT TextDocumentGenerator : public Generator
     protected:
         bool doCloseDocument();
         Okular::TextPage* textPage( Okular::Page *page );
+
+        /**
+         * Return document background
+         * By default get from system settings.
+         */
+        virtual const QColor& background();
+
+        /**
+         * Get converter
+         */
+        const TextDocumentConverter* converter() const;
 
     private:
         Q_DECLARE_PRIVATE( TextDocumentGenerator )

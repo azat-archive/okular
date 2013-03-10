@@ -7,6 +7,8 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
+#include <QColor>
+
 #include "generator_epub.h"
 
 #include "converter.h"
@@ -35,4 +37,11 @@ OKULAR_EXPORT_PLUGIN( EPubGenerator, createAboutData() )
 EPubGenerator::EPubGenerator( QObject *parent, const QVariantList &args )
 : Okular::TextDocumentGenerator( new Epub::Converter, parent, args )
 {
+}
+
+const QColor& EPubGenerator::background()
+{
+  const Epub::Converter *epubConverter = qobject_cast< const Epub::Converter* >( converter() );
+  kWarning() << epubConverter->background().color();
+  return epubConverter->background().color();
 }

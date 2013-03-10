@@ -22,6 +22,7 @@
 #if QT_VERSION >= 0x040500
 #include <QtGui/QTextDocumentWriter>
 #endif
+#include <QColor>
 #include <KColorScheme>
 
 #include "action.h"
@@ -352,13 +353,10 @@ QImage TextDocumentGeneratorPrivate::image( PixmapRequest * request )
     if ( !mDocument )
         return QImage();
 
-#ifdef OKULAR_TEXTDOCUMENT_THREADED_RENDERING
     Q_Q( TextDocumentGenerator );
-#endif
 
     QImage image( request->width(), request->height(), QImage::Format_ARGB32 );
-    const KColorScheme scheme( QPalette::Active, KColorScheme::View );
-    image.fill( scheme.background().color() );
+    image.fill( q->background() );
 
     QPainter p;
     p.begin( &image );
@@ -389,6 +387,19 @@ Okular::TextPage* TextDocumentGenerator::textPage( Okular::Page * page )
 {
     Q_D( TextDocumentGenerator );
     return d->createTextPage( page->number() );
+}
+
+const QColor& TextDocumentGenerator::background()
+{
+    const KColorScheme scheme( QPalette::Active, KColorScheme::View );
+    kWarning() << scheme.background().color();
+    return scheme.background().color();
+}
+
+const TextDocumentConverter* TextDocumentGenerator::converter() const
+{
+    Q_D( const TextDocumentGenerator );
+    return d->mConverter;
 }
 
 bool TextDocumentGenerator::print( QPrinter& printer )

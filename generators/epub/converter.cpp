@@ -101,6 +101,35 @@ void Converter::_handle_anchors(const QTextBlock &start, const QString &name) {
   }
 }
 
+const QBrush Converter::background(const QTextBlock &start) const
+{
+  foreach (QTextFormat format, mTextDocument->allFormats()) {
+    kWarning() << format.background();
+  }
+  kWarning() << mTextDocument->toHtml();
+
+  for (QTextBlock bit = start; bit != mTextDocument->end(); bit = bit.next()) {
+    for (QTextBlock::iterator fit = bit.begin(); !(fit.atEnd()); ++fit) {
+
+      QTextFragment frag = fit.fragment();
+
+      if (!frag.isValid()) {
+        continue;
+      }
+
+      kWarning() << frag.text();
+      return frag.charFormat().background();
+    }
+  }
+
+  return QBrush();
+}
+
+const QBrush& Converter::background() const
+{
+  return mBackground;
+}
+
 QTextDocument* Converter::convert( const QString &fileName )
 {
   EpubDocument *newDocument = new EpubDocument(fileName);
@@ -230,6 +259,9 @@ QTextDocument* Converter::convert( const QString &fileName )
           free(label);
       }
     } while (epub_tit_next(tit));
+
+    mBackground = background(mTextDocument->begin());
+    kWarning() << "Background" << mBackground;
 
     epub_free_titerator(tit);
   } else {
