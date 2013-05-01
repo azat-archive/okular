@@ -36,7 +36,7 @@ class OKULAR_EXPORT TextDocumentSettings : public QWidget
 
         QFont font();
     // TODO(font-selector-for-plain-text-formats)
-    // private:
+    private:
         QVBoxLayout *vboxLayout;
         QGroupBox *groupBox;
         QVBoxLayout *vboxLayout1;
