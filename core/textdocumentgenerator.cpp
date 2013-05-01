@@ -25,6 +25,7 @@
 
 #include <KConfigDialog>
 #include <KFontComboBox>
+#include <KLocale>
 #include <QVBoxLayout>
 #include <QGroupBox>
 #include <QSpacerItem>
@@ -35,9 +36,6 @@
 #include "textpage.h"
 
 #include "document.h"
-#include <settings_core.h>
-
-#include <klocale.h>
 
 using namespace Okular;
 
@@ -63,6 +61,11 @@ TextDocumentSettings::TextDocumentSettings()
     vboxLayout->addItem( spacerItem );
 
     QMetaObject::connectSlotsByName( this );
+}
+
+QFont TextDocumentSettings::font()
+{
+    return kcfg_Font->currentFont();
 }
 
 /**
@@ -247,11 +250,11 @@ void TextDocumentGeneratorPrivate::generateTitleInfos()
 }
 
 TextDocumentGenerator::TextDocumentGenerator( TextDocumentConverter *converter, QObject *parent, const QVariantList &args )
-    : Okular::Generator( *new TextDocumentGeneratorPrivate( converter ), parent, args )
+    : Okular::Generator( *new TextDocumentGeneratorPrivate( converter, new TextDocumentSettings() ), parent, args )
 {
     converter->d_ptr->mParent = d_func();
     Q_D( TextDocumentGenerator );
-    d->mFont = SettingsCore::font();
+    d->mFont = d->mGeneralSettings->font();
 
     setFeature( TextExtraction );
     setFeature( PrintNative );
@@ -524,8 +527,12 @@ bool TextDocumentGenerator::reparseConfig()
 {
     Q_D( TextDocumentGenerator );
 
-    if ( SettingsCore::font() != d->mFont ) {
-        d->mFont = SettingsCore::font();
+    QFont newFont = d->mGeneralSettings->font();
+
+    // TODO(font-selector-for-plain-text-formats)
+    kWarning() << "reparseConfig, newFont" << newFont << ", oldFont" << d->mFont;
+    if ( newFont != d->mFont ) {
+        d->mFont = newFont;
         return true;
     }
 
@@ -534,7 +541,9 @@ bool TextDocumentGenerator::reparseConfig()
 
 TextDocumentSettings* TextDocumentGenerator::generalSettings()
 {
-    return new TextDocumentSettings();
+    Q_D( TextDocumentGenerator );
+
+    return d->mGeneralSettings;
 }
 
 #include "textdocumentgenerator.moc"

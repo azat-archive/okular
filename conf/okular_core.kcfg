@@ -92,8 +92,4 @@
    <default>false</default>
   </entry>
  </group>
- <group name="View Options" >
-    <entry key="Font" type="Font" >
-    </entry>
- </group>
 </kcfg>

@@ -113,8 +113,8 @@ class TextDocumentGeneratorPrivate : public GeneratorPrivate
     friend class TextDocumentConverter;
 
     public:
-        TextDocumentGeneratorPrivate( TextDocumentConverter *converter )
-            : mConverter( converter ), mDocument( 0 )
+        TextDocumentGeneratorPrivate( TextDocumentConverter *converter, TextDocumentSettings* generalSettings )
+            : mConverter( converter ), mDocument( 0 ), mGeneralSettings( generalSettings )
         {
         }
 
@@ -122,6 +122,8 @@ class TextDocumentGeneratorPrivate : public GeneratorPrivate
         {
             delete mConverter;
             delete mDocument;
+            // TODO(font-selector-for-plain-text-formats)
+            // delete mGeneralSettings;
         }
 
         Q_DECLARE_PUBLIC( TextDocumentGenerator )
@@ -188,6 +190,8 @@ class TextDocumentGeneratorPrivate : public GeneratorPrivate
           Annotation *annotation;
         };
         QList<AnnotationInfo> mAnnotationInfos;
+
+        TextDocumentSettings* mGeneralSettings;
 
         QFont mFont;
 };

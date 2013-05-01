@@ -32,13 +32,16 @@ namespace Okular {
 class OKULAR_EXPORT TextDocumentSettings : public QWidget
 {
     public:
+        TextDocumentSettings();
+
+        QFont font();
+    // TODO(font-selector-for-plain-text-formats)
+    // private:
         QVBoxLayout *vboxLayout;
         QGroupBox *groupBox;
         QVBoxLayout *vboxLayout1;
         KFontComboBox *kcfg_Font;
         QSpacerItem *spacerItem;
-
-        TextDocumentSettings();
 };
 
 class TextDocumentConverterPrivate;
