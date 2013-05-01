@@ -52,7 +52,7 @@ TextDocumentSettings::TextDocumentSettings()
     vboxLayout1 = new QVBoxLayout( groupBox );
     vboxLayout1->setObjectName( QString::fromUtf8( "vboxLayout1" ) );
     kcfg_Font = new KFontComboBox( groupBox );
-    kcfg_Font->setObjectName( QString::fromUtf8( "kcfg_Font" ) );
+    kcfg_Font->setObjectName( QString::fromUtf8( "Font" ) );
 
     vboxLayout1->addWidget( kcfg_Font );
     vboxLayout->addWidget( groupBox );
