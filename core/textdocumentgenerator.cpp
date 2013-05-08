@@ -493,8 +493,6 @@ bool TextDocumentGenerator::reparseConfig()
 
     QFont newFont = d->mGeneralSettings->font();
 
-    // TODO(font-selector-for-plain-text-formats)
-    kWarning() << "reparseConfig, newFont" << newFont << ", oldFont" << d->mFont;
     if ( newFont != d->mFont ) {
         d->mFont = newFont;
         return true;
