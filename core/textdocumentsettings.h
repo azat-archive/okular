@@ -16,6 +16,7 @@
 
 #include <QFont>
 #include <QWidget>
+#include <QObject>
 #include <KConfigSkeleton>
 
 class QVBoxLayout;
@@ -28,7 +29,7 @@ namespace Okular {
 class OKULAR_EXPORT TextDocumentSettings : public QWidget
 {
     public:
-        TextDocumentSettings();
+        TextDocumentSettings( QWidget *parent = 0 );
 
         QFont font();
 
@@ -43,7 +44,7 @@ class OKULAR_EXPORT TextDocumentSettings : public QWidget
 class OKULAR_EXPORT TextDocumentSettingsSkeleton : public KConfigSkeleton
 {
     public:
-        TextDocumentSettingsSkeleton( QString config );
+        TextDocumentSettingsSkeleton( const QString& config, QObject *parent );
 
         QFont font();
 

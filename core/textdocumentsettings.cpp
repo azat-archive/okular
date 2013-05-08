@@ -24,7 +24,8 @@ using namespace Okular;
  * TextDocumentSettings
  */
 
-TextDocumentSettings::TextDocumentSettings()
+TextDocumentSettings::TextDocumentSettings( QWidget *parent )
+    : QWidget( parent )
 {
     setObjectName( QString::fromUtf8( "TextDocumentsSettingsWidget" ) );
     resize( 328, 73 );
@@ -58,8 +59,8 @@ QFont TextDocumentSettings::font()
  * TextDocumentSettingsSkeleton
  */
 
-TextDocumentSettingsSkeleton::TextDocumentSettingsSkeleton( QString config )
-    : KConfigSkeleton( config )
+TextDocumentSettingsSkeleton::TextDocumentSettingsSkeleton( const QString& config, QObject *parent )
+    : KConfigSkeleton( config, parent )
 {
     addItemFont( "Font", mFont );
 }
