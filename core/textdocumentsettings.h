@@ -37,8 +37,9 @@ class OKULAR_EXPORT TextDocumentSettings : public QWidget
         QVBoxLayout *vboxLayout;
         QGroupBox *groupBox;
         QVBoxLayout *vboxLayout1;
-        KFontComboBox *kcfg_Font;
         QSpacerItem *spacerItem;
+
+        KFontComboBox *kcfg_Font;
 };
 
 class OKULAR_EXPORT TextDocumentSettingsSkeleton : public KConfigSkeleton
