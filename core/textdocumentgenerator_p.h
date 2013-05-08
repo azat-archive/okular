@@ -122,8 +122,6 @@ class TextDocumentGeneratorPrivate : public GeneratorPrivate
         {
             delete mConverter;
             delete mDocument;
-            // TODO(font-selector-for-plain-text-formats)
-            // delete mGeneralSettings;
         }
 
         Q_DECLARE_PUBLIC( TextDocumentGenerator )
