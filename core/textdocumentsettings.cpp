@@ -61,5 +61,10 @@ QFont TextDocumentSettings::font()
 TextDocumentSettingsSkeleton::TextDocumentSettingsSkeleton( QString config )
     : KConfigSkeleton( config )
 {
-    addItemString( "Font", mFont );
+    addItemFont( "Font", mFont );
+}
+
+QFont TextDocumentSettingsSkeleton::font()
+{
+    return mFont;
 }

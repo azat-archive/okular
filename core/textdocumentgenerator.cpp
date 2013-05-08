@@ -218,7 +218,7 @@ TextDocumentGenerator::TextDocumentGenerator( TextDocumentConverter *converter, 
 {
     converter->d_ptr->mParent = d_func();
     Q_D( TextDocumentGenerator );
-    d->mFont = d->mGeneralSettings->font();
+    d->mFont = d->mGeneralSettingsSkeleton->font();
 
     setFeature( TextExtraction );
     setFeature( PrintNative );

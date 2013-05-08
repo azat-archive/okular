@@ -44,8 +44,10 @@ class OKULAR_EXPORT TextDocumentSettingsSkeleton : public KConfigSkeleton
     public:
         TextDocumentSettingsSkeleton( QString config );
 
+        QFont font();
+
     private:
-        QString mFont;
+        QFont mFont;
 };
 
 }
