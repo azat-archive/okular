@@ -23,13 +23,6 @@
 #include <QtGui/QTextDocumentWriter>
 #endif
 
-#include <KConfigDialog>
-#include <KFontComboBox>
-#include <KLocale>
-#include <QVBoxLayout>
-#include <QGroupBox>
-#include <QSpacerItem>
-
 #include "action.h"
 #include "annotations.h"
 #include "page.h"
@@ -38,47 +31,6 @@
 #include "document.h"
 
 using namespace Okular;
-
-/**
- * TextDocumentSettings
- */
-TextDocumentSettings::TextDocumentSettings()
-{
-    setObjectName( QString::fromUtf8( "TextDocumentsSettingsWidget" ) );
-    resize( 328, 73 );
-    vboxLayout = new QVBoxLayout( this );
-    vboxLayout->setObjectName( QString::fromUtf8( "vboxLayout" ) );
-    vboxLayout->setContentsMargins( 0, 0, 0, 0 );
-    groupBox = new QGroupBox( this );
-    groupBox->setObjectName( QString::fromUtf8( "groupBox" ) );
-    groupBox->setTitle( tr2i18n( "General Settings", 0 ) );
-    vboxLayout1 = new QVBoxLayout( groupBox );
-    vboxLayout1->setObjectName( QString::fromUtf8( "vboxLayout1" ) );
-    kcfg_Font = new KFontComboBox( groupBox );
-    kcfg_Font->setObjectName( QString::fromUtf8( "kcfg_Font" ) );
-
-    vboxLayout1->addWidget( kcfg_Font );
-    vboxLayout->addWidget( groupBox );
-
-    spacerItem = new QSpacerItem( 10, 5, QSizePolicy::Minimum, QSizePolicy::Expanding );
-    vboxLayout->addItem( spacerItem );
-
-    QMetaObject::connectSlotsByName( this );
-}
-
-QFont TextDocumentSettings::font()
-{
-    return kcfg_Font->currentFont();
-}
-
-/**
- * TextDocumentSettingsSkeleton
- */
-TextDocumentSettingsSkeleton::TextDocumentSettingsSkeleton( QString config )
-    : KConfigSkeleton( config )
-{
-    addItemString("Font", mFont);
-}
 
 /**
  * Generic Converter Implementation

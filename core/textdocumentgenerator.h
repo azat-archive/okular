@@ -12,8 +12,8 @@
 
 #include <QFont>
 #include <QWidget>
-#include <KConfigSkeleton>
 
+#include <core/textdocumentsettings.h>
 #include <interfaces/configinterface.h>
 
 #include "okular_export.h"
@@ -23,36 +23,8 @@
 
 class QTextBlock;
 class QTextDocument;
-class QVBoxLayout;
-class QGroupBox;
-class QSpacerItem;
-class KFontComboBox;
 
 namespace Okular {
-
-class OKULAR_EXPORT TextDocumentSettings : public QWidget
-{
-    public:
-        TextDocumentSettings();
-
-        QFont font();
-
-    private:
-        QVBoxLayout *vboxLayout;
-        QGroupBox *groupBox;
-        QVBoxLayout *vboxLayout1;
-        KFontComboBox *kcfg_Font;
-        QSpacerItem *spacerItem;
-};
-
-class OKULAR_EXPORT TextDocumentSettingsSkeleton : public KConfigSkeleton
-{
-    public:
-        TextDocumentSettingsSkeleton( QString config );
-
-    private:
-        QString mFont;
-};
 
 class TextDocumentConverterPrivate;
 class TextDocumentGenerator;

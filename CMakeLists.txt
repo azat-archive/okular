@@ -61,6 +61,7 @@ set(okularcore_SRCS
    core/sound.cpp
    core/sourcereference.cpp
    core/textdocumentgenerator.cpp
+   core/textdocumentsettings.cpp
    core/textpage.cpp
    core/tilesmanager.cpp
    core/utils.cpp
@@ -93,6 +94,7 @@ install( FILES
            core/sound.h
            core/sourcereference.h
            core/textdocumentgenerator.h
+           core/textdocumentsettings.h
            core/textpage.h
            core/tile.h
            core/utils.h
