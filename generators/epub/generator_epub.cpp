@@ -34,12 +34,11 @@ static KAboutData createAboutData()
 OKULAR_EXPORT_PLUGIN( EPubGenerator, createAboutData() )
 
 EPubGenerator::EPubGenerator( QObject *parent, const QVariantList &args )
-: Okular::TextDocumentGenerator( new Epub::Converter, parent, args )
+: Okular::TextDocumentGenerator( new Epub::Converter, createAboutData().appName(), parent, args )
 {
 }
 
 void EPubGenerator::addPages( KConfigDialog* dlg )
 {
-  KConfigSkeleton *skeleton = new Okular::TextDocumentSettingsSkeleton( createAboutData().appName() );
-  dlg->addPage( generalSettings(), skeleton, i18n("EPub"), "okular-epub-settings", i18n("EPub Backend Configuration") );
+  dlg->addPage( generalSettings(), generalSettingsSkeleton(), i18n("EPub"), "okular-epub-settings", i18n("EPub Backend Configuration") );
 }

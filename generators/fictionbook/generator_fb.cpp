@@ -34,12 +34,11 @@ static KAboutData createAboutData()
 OKULAR_EXPORT_PLUGIN( FictionBookGenerator, createAboutData() )
 
 FictionBookGenerator::FictionBookGenerator( QObject *parent, const QVariantList &args )
-    : Okular::TextDocumentGenerator( new FictionBook::Converter, parent, args )
+    : Okular::TextDocumentGenerator( new FictionBook::Converter, createAboutData().appName(), parent, args )
 {
 }
 
 void FictionBookGenerator::addPages( KConfigDialog* dlg )
 {
-    KConfigSkeleton *skeleton = new Okular::TextDocumentSettingsSkeleton( createAboutData().appName() );
-    dlg->addPage( generalSettings(), skeleton, i18n("FictionBook"), "okular-fictionbook-settings", i18n("FictionBook Backend Configuration") );
+    dlg->addPage( generalSettings(), generalSettingsSkeleton(), i18n("FictionBook"), "okular-fictionbook-settings", i18n("FictionBook Backend Configuration") );
 }

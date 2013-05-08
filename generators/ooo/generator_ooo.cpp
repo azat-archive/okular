@@ -34,12 +34,11 @@ static KAboutData createAboutData()
 OKULAR_EXPORT_PLUGIN( KOOOGenerator, createAboutData() )
 
 KOOOGenerator::KOOOGenerator( QObject *parent, const QVariantList &args )
-  : Okular::TextDocumentGenerator( new OOO::Converter, parent, args )
+  : Okular::TextDocumentGenerator( new OOO::Converter, createAboutData().appName(), parent, args )
 {
 }
 
 void KOOOGenerator::addPages( KConfigDialog* dlg )
 {
-    KConfigSkeleton *skeleton = new Okular::TextDocumentSettingsSkeleton( createAboutData().appName() );
-    dlg->addPage( generalSettings(), skeleton, i18n("OpenOffice"), "okular-ooo-settings", i18n("OpenOffice Backend Configuration") );
+    dlg->addPage( generalSettings(), generalSettingsSkeleton(), i18n("OpenOffice"), "okular-ooo-settings", i18n("OpenOffice Backend Configuration") );
 }

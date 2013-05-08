@@ -213,8 +213,8 @@ void TextDocumentGeneratorPrivate::generateTitleInfos()
     }
 }
 
-TextDocumentGenerator::TextDocumentGenerator( TextDocumentConverter *converter, QObject *parent, const QVariantList &args )
-    : Okular::Generator( *new TextDocumentGeneratorPrivate( converter, new TextDocumentSettings() ), parent, args )
+TextDocumentGenerator::TextDocumentGenerator( TextDocumentConverter *converter, QString configName, QObject *parent, const QVariantList &args )
+    : Okular::Generator( *new TextDocumentGeneratorPrivate( converter, new TextDocumentSettings(), new TextDocumentSettingsSkeleton( configName ) ), parent, args )
 {
     converter->d_ptr->mParent = d_func();
     Q_D( TextDocumentGenerator );
@@ -506,6 +506,13 @@ TextDocumentSettings* TextDocumentGenerator::generalSettings()
     Q_D( TextDocumentGenerator );
 
     return d->mGeneralSettings;
+}
+
+TextDocumentSettingsSkeleton* TextDocumentGenerator::generalSettingsSkeleton()
+{
+    Q_D( TextDocumentGenerator );
+
+    return d->mGeneralSettingsSkeleton;
 }
 
 #include "textdocumentgenerator.moc"
