@@ -10,9 +10,6 @@
 #ifndef _OKULAR_TEXTDOCUMENTGENERATOR_H_
 #define _OKULAR_TEXTDOCUMENTGENERATOR_H_
 
-#include <QFont>
-#include <QWidget>
-
 #include <core/textdocumentsettings.h>
 #include <interfaces/configinterface.h>
 

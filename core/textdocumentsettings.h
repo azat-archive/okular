@@ -14,8 +14,9 @@
 
 #include "okular_export.h"
 
-#include <KConfigSkeleton>
+#include <QFont>
 #include <QWidget>
+#include <KConfigSkeleton>
 
 class QVBoxLayout;
 class QGroupBox;
