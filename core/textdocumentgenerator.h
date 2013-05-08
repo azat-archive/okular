@@ -12,6 +12,7 @@
 
 #include <QFont>
 #include <QWidget>
+#include <KConfigSkeleton>
 
 #include <interfaces/configinterface.h>
 
@@ -35,13 +36,22 @@ class OKULAR_EXPORT TextDocumentSettings : public QWidget
         TextDocumentSettings();
 
         QFont font();
-    // TODO(font-selector-for-plain-text-formats)
+
     private:
         QVBoxLayout *vboxLayout;
         QGroupBox *groupBox;
         QVBoxLayout *vboxLayout1;
         KFontComboBox *kcfg_Font;
         QSpacerItem *spacerItem;
+};
+
+class OKULAR_EXPORT TextDocumentSettingsSkeleton : public KConfigSkeleton
+{
+    public:
+        TextDocumentSettingsSkeleton( QString config );
+
+    private:
+        QString mFont;
 };
 
 class TextDocumentConverterPrivate;

@@ -40,5 +40,6 @@ KOOOGenerator::KOOOGenerator( QObject *parent, const QVariantList &args )
 
 void KOOOGenerator::addPages( KConfigDialog* dlg )
 {
-    dlg->addPage( generalSettings(), i18n("OpenOffice"), "okular-ooo-settings", i18n("OpenOffice Backend Configuration") );
+    KConfigSkeleton *skeleton = new Okular::TextDocumentSettingsSkeleton( createAboutData().appName() );
+    dlg->addPage( generalSettings(), skeleton, i18n("OpenOffice"), "okular-ooo-settings", i18n("OpenOffice Backend Configuration") );
 }

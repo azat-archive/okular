@@ -39,6 +39,9 @@
 
 using namespace Okular;
 
+/**
+ * TextDocumentSettings
+ */
 TextDocumentSettings::TextDocumentSettings()
 {
     setObjectName( QString::fromUtf8( "TextDocumentsSettingsWidget" ) );
@@ -52,7 +55,7 @@ TextDocumentSettings::TextDocumentSettings()
     vboxLayout1 = new QVBoxLayout( groupBox );
     vboxLayout1->setObjectName( QString::fromUtf8( "vboxLayout1" ) );
     kcfg_Font = new KFontComboBox( groupBox );
-    kcfg_Font->setObjectName( QString::fromUtf8( "Font" ) );
+    kcfg_Font->setObjectName( QString::fromUtf8( "kcfg_Font" ) );
 
     vboxLayout1->addWidget( kcfg_Font );
     vboxLayout->addWidget( groupBox );
@@ -66,6 +69,15 @@ TextDocumentSettings::TextDocumentSettings()
 QFont TextDocumentSettings::font()
 {
     return kcfg_Font->currentFont();
+}
+
+/**
+ * TextDocumentSettingsSkeleton
+ */
+TextDocumentSettingsSkeleton::TextDocumentSettingsSkeleton( QString config )
+    : KConfigSkeleton( config )
+{
+    addItemString("Font", mFont);
 }
 
 /**
