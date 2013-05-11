@@ -19,9 +19,7 @@
 #include <QObject>
 #include <KConfigSkeleton>
 
-class QVBoxLayout;
-class QGroupBox;
-class QSpacerItem;
+class Ui_TextDocumentSettings;
 class KFontComboBox;
 
 namespace Okular {
@@ -43,11 +41,6 @@ class OKULAR_EXPORT TextDocumentSettings : public QWidget
         QFont font();
 
     private:
-        QVBoxLayout *vboxLayout;
-        QGroupBox *groupBox;
-        QVBoxLayout *vboxLayout1;
-        QSpacerItem *spacerItem;
-
         KFontComboBox *kcfg_Font;
 };
 

@@ -78,6 +78,10 @@ set(okularcore_SRCS
    core/script/kjs_util.cpp
 )
 
+kde4_add_ui_files(okularcore_SRCS
+   conf/textdocumentsettings.ui
+)
+
 install( FILES
            core/action.h
            core/annotations.h
