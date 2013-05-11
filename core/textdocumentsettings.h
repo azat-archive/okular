@@ -24,6 +24,9 @@ class KFontComboBox;
 
 namespace Okular {
 
+class TextDocumentSettingsPrivate;
+class TextDocumentSettingsSkeletonPrivate;
+
 /**
  * TextDocumentSettings
  *
@@ -41,7 +44,9 @@ class OKULAR_EXPORT TextDocumentSettings : public QWidget
         QFont font();
 
     private:
-        KFontComboBox *kcfg_Font;
+        TextDocumentSettingsPrivate *d_ptr;
+        Q_DECLARE_PRIVATE( TextDocumentSettings )
+        Q_DISABLE_COPY( TextDocumentSettings )
 };
 
 /**
@@ -60,7 +65,9 @@ class OKULAR_EXPORT TextDocumentSettingsSkeleton : public KConfigSkeleton
         QFont font();
 
     private:
-        QFont mFont;
+        TextDocumentSettingsSkeletonPrivate *d_ptr;
+        Q_DECLARE_PRIVATE( TextDocumentSettingsSkeleton )
+        Q_DISABLE_COPY( TextDocumentSettingsSkeleton )
 };
 
 }

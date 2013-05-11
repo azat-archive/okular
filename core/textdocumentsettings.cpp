@@ -9,6 +9,7 @@
 
 
 #include "textdocumentsettings.h"
+#include "textdocumentsettings_p.h"
 #include "ui_textdocumentsettings.h"
 
 #include <KConfigDialog>
@@ -27,18 +28,27 @@ using namespace Okular;
 
 TextDocumentSettings::TextDocumentSettings( QWidget *parent )
     : QWidget( parent )
+    , d_ptr( new TextDocumentSettingsPrivate() )
 {
     Ui_TextDocumentSettings ui;
     ui.setupUi( this );
 
-    kcfg_Font = new KFontComboBox( this );
-    kcfg_Font->setObjectName( QString::fromUtf8( "kcfg_Font" ) );
-    ui.formLayout->addWidget( kcfg_Font );
+    Q_D( TextDocumentSettings );
+
+    // TODO: we need API to add widgets
+#define ADD_WIDGET( property, widget, objectName )                   \
+    d->property = new widget( this );                                \
+    d->property->setObjectName( QString::fromUtf8( objectName ) );   \
+    ui.formLayout->addWidget( d->property );
+
+    ADD_WIDGET( mFont, KFontComboBox, "kcfg_Font" );
+#undef ADD_WIDGET
 }
 
 QFont TextDocumentSettings::font()
 {
-    return kcfg_Font->currentFont();
+    Q_D( TextDocumentSettings );
+    return d->mFont->currentFont();
 }
 
 
@@ -48,11 +58,15 @@ QFont TextDocumentSettings::font()
 
 TextDocumentSettingsSkeleton::TextDocumentSettingsSkeleton( const QString& config, QObject *parent )
     : KConfigSkeleton( config, parent )
+    , d_ptr( new TextDocumentSettingsSkeletonPrivate() )
 {
-    addItemFont( "Font", mFont );
+    Q_D( TextDocumentSettingsSkeleton );
+
+    addItemFont( "Font", d->mFont );
 }
 
 QFont TextDocumentSettingsSkeleton::font()
 {
-    return mFont;
+    Q_D( TextDocumentSettingsSkeleton );
+    return d->mFont;
 }
