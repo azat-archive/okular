@@ -19,7 +19,6 @@
 #include <QObject>
 #include <KConfigSkeleton>
 
-class Ui_TextDocumentSettings;
 class KFontComboBox;
 
 namespace Okular {
