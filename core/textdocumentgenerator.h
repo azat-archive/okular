@@ -197,7 +197,7 @@ class OKULAR_EXPORT TextDocumentGenerator : public Generator, public Okular::Con
         /**
          * Config skeleton for TextDocumentSettings
          *
-         * You must use new construtor to initialize TextDocumentSettings,
+         * You must use new construtor to initialize TextDocumentSettingsSkeleton,
          * that contain @param configName.
          *
          * @see generalSettings()
