@@ -12,12 +12,8 @@
 #include "textdocumentsettings_p.h"
 #include "ui_textdocumentsettings.h"
 
-#include <KConfigDialog>
 #include <KFontComboBox>
 #include <KLocale>
-#include <QVBoxLayout>
-#include <QGroupBox>
-#include <QSpacerItem>
 
 
 using namespace Okular;
