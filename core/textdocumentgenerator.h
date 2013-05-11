@@ -10,8 +10,8 @@
 #ifndef _OKULAR_TEXTDOCUMENTGENERATOR_H_
 #define _OKULAR_TEXTDOCUMENTGENERATOR_H_
 
-#include <core/textdocumentsettings.h>
-#include <interfaces/configinterface.h>
+#include "core/textdocumentsettings.h"
+#include "interfaces/configinterface.h"
 
 #include "okular_export.h"
 
