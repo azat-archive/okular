@@ -213,38 +213,16 @@ void TextDocumentGeneratorPrivate::generateTitleInfos()
     }
 }
 
-TextDocumentGenerator::TextDocumentGenerator( TextDocumentConverter *converter, QString configName, QObject *parent, const QVariantList &args )
+TextDocumentGenerator::TextDocumentGenerator( TextDocumentConverter *converter, const QString& configName, QObject *parent, const QVariantList &args )
     : Okular::Generator( *new TextDocumentGeneratorPrivate( converter, new TextDocumentSettings(), new TextDocumentSettingsSkeleton( configName, parent ) ), parent, args )
 {
-    converter->d_ptr->mParent = d_func();
-    Q_D( TextDocumentGenerator );
-    d->mFont = d->mGeneralSettingsSkeleton->font();
+    initializeGenerator( converter );
+}
 
-    setFeature( TextExtraction );
-    setFeature( PrintNative );
-    setFeature( PrintToFile );
-#ifdef OKULAR_TEXTDOCUMENT_THREADED_RENDERING
-    if ( QFontDatabase::supportsThreadedFontRendering() )
-        setFeature( Threaded );
-#endif
-
-    connect( converter, SIGNAL(addAction(Action*,int,int)),
-             this, SLOT(addAction(Action*,int,int)) );
-    connect( converter, SIGNAL(addAnnotation(Annotation*,int,int)),
-             this, SLOT(addAnnotation(Annotation*,int,int)) );
-    connect( converter, SIGNAL(addTitle(int,QString,QTextBlock)),
-             this, SLOT(addTitle(int,QString,QTextBlock)) );
-    connect( converter, SIGNAL(addMetaData(QString,QString,QString)),
-             this, SLOT(addMetaData(QString,QString,QString)) );
-    connect( converter, SIGNAL(addMetaData(DocumentInfo::Key,QString)),
-             this, SLOT(addMetaData(DocumentInfo::Key,QString)) );
-
-    connect( converter, SIGNAL(error(QString,int)),
-             this, SIGNAL(error(QString,int)) );
-    connect( converter, SIGNAL(warning(QString,int)),
-             this, SIGNAL(warning(QString,int)) );
-    connect( converter, SIGNAL(notice(QString,int)),
-             this, SIGNAL(notice(QString,int)) );
+TextDocumentGenerator::TextDocumentGenerator( TextDocumentConverter *converter, QObject *parent, const QVariantList &args )
+    : Okular::Generator( *new TextDocumentGeneratorPrivate( converter, new TextDocumentSettings(), new TextDocumentSettingsSkeleton( "", parent ) ), parent, args )
+{
+    initializeGenerator( converter );
 }
 
 TextDocumentGenerator::~TextDocumentGenerator()
@@ -513,6 +491,39 @@ TextDocumentSettingsSkeleton* TextDocumentGenerator::generalSettingsSkeleton()
     Q_D( TextDocumentGenerator );
 
     return d->mGeneralSettingsSkeleton;
+}
+
+void TextDocumentGenerator::initializeGenerator( TextDocumentConverter *converter )
+{
+    converter->d_ptr->mParent = d_func();
+    Q_D( TextDocumentGenerator );
+    d->mFont = d->mGeneralSettingsSkeleton->font();
+
+    setFeature( TextExtraction );
+    setFeature( PrintNative );
+    setFeature( PrintToFile );
+#ifdef OKULAR_TEXTDOCUMENT_THREADED_RENDERING
+    if ( QFontDatabase::supportsThreadedFontRendering() )
+        setFeature( Threaded );
+#endif
+
+    connect( converter, SIGNAL(addAction(Action*,int,int)),
+             this, SLOT(addAction(Action*,int,int)) );
+    connect( converter, SIGNAL(addAnnotation(Annotation*,int,int)),
+             this, SLOT(addAnnotation(Annotation*,int,int)) );
+    connect( converter, SIGNAL(addTitle(int,QString,QTextBlock)),
+             this, SLOT(addTitle(int,QString,QTextBlock)) );
+    connect( converter, SIGNAL(addMetaData(QString,QString,QString)),
+             this, SLOT(addMetaData(QString,QString,QString)) );
+    connect( converter, SIGNAL(addMetaData(DocumentInfo::Key,QString)),
+             this, SLOT(addMetaData(DocumentInfo::Key,QString)) );
+
+    connect( converter, SIGNAL(error(QString,int)),
+             this, SIGNAL(error(QString,int)) );
+    connect( converter, SIGNAL(warning(QString,int)),
+             this, SIGNAL(warning(QString,int)) );
+    connect( converter, SIGNAL(notice(QString,int)),
+             this, SIGNAL(notice(QString,int)) );
 }
 
 #include "textdocumentgenerator.moc"

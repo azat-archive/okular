@@ -152,7 +152,18 @@ class OKULAR_EXPORT TextDocumentGenerator : public Generator, public Okular::Con
          * @note the generator will take ownership of the converter, so you
          *       don't have to delete it yourself
          */
-        TextDocumentGenerator( TextDocumentConverter *converter, QString configName, QObject *parent, const QVariantList &args );
+        TextDocumentGenerator( TextDocumentConverter *converter, const QString& configName, QObject *parent, const QVariantList &args );
+        /**
+         * Creates a new generator that uses the specified @p converter.
+         *
+         * @deprecated use new one, that contain @param configName
+         * This constructor only to avoid breaking another plugins,
+         * that not contains in official repository.
+         *
+         * @note the generator will take ownership of the converter, so you
+         *       don't have to delete it yourself
+         */
+        TextDocumentGenerator( TextDocumentConverter *converter, QObject *parent, const QVariantList &args );
         virtual ~TextDocumentGenerator();
 
         // [INHERITED] load a document and fill up the pagesVector
@@ -184,6 +195,8 @@ class OKULAR_EXPORT TextDocumentGenerator : public Generator, public Okular::Con
         Okular::TextPage* textPage( Okular::Page *page );
 
     private:
+        void initializeGenerator( TextDocumentConverter *converter );
+
         Q_DECLARE_PRIVATE( TextDocumentGenerator )
         Q_DISABLE_COPY( TextDocumentGenerator )
 

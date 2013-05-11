@@ -32,7 +32,7 @@ static KAboutData createAboutData()
 OKULAR_EXPORT_PLUGIN( TxtGenerator, createAboutData() )
 
 TxtGenerator::TxtGenerator( QObject *parent, const QVariantList &args )
-    : Okular::TextDocumentGenerator( new Txt::Converter, createAboutData().appName(), parent, args )
+    : Okular::TextDocumentGenerator( new Txt::Converter, "txt_generator_settings", parent, args )
 {
 }
 
