@@ -220,7 +220,7 @@ TextDocumentGenerator::TextDocumentGenerator( TextDocumentConverter *converter, 
 }
 
 TextDocumentGenerator::TextDocumentGenerator( TextDocumentConverter *converter, QObject *parent, const QVariantList &args )
-    : Okular::Generator( *new TextDocumentGeneratorPrivate( converter, new TextDocumentSettings(), new TextDocumentSettingsSkeleton( "", parent ) ), parent, args )
+    : Okular::Generator( *new TextDocumentGeneratorPrivate( converter ), parent, args )
 {
     initializeGenerator( converter );
 }
@@ -469,6 +469,11 @@ bool TextDocumentGenerator::reparseConfig()
 {
     Q_D( TextDocumentGenerator );
 
+    // don't have settings, just return "no changes".
+    if (!d->mGeneralSettings) {
+        return false;
+    }
+
     QFont newFont = d->mGeneralSettings->font();
 
     if ( newFont != d->mFont ) {
@@ -497,7 +502,10 @@ void TextDocumentGenerator::initializeGenerator( TextDocumentConverter *converte
 {
     converter->d_ptr->mParent = d_func();
     Q_D( TextDocumentGenerator );
-    d->mFont = d->mGeneralSettingsSkeleton->font();
+
+    if (d->mGeneralSettingsSkeleton) {
+        d->mFont = d->mGeneralSettingsSkeleton->font();
+    }
 
     setFeature( TextExtraction );
     setFeature( PrintNative );

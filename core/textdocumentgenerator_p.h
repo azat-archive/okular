@@ -113,7 +113,7 @@ class TextDocumentGeneratorPrivate : public GeneratorPrivate
     friend class TextDocumentConverter;
 
     public:
-        TextDocumentGeneratorPrivate( TextDocumentConverter *converter, TextDocumentSettings* generalSettings, TextDocumentSettingsSkeleton* generalSettingsSkeleton )
+        TextDocumentGeneratorPrivate( TextDocumentConverter *converter, TextDocumentSettings* generalSettings = 0, TextDocumentSettingsSkeleton* generalSettingsSkeleton = 0 )
             : mConverter( converter ), mDocument( 0 ), mGeneralSettings( generalSettings ), mGeneralSettingsSkeleton( generalSettingsSkeleton )
         {
         }
