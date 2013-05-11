@@ -26,6 +26,15 @@ class KFontComboBox;
 
 namespace Okular {
 
+/**
+ * TextDocumentSettings
+ *
+ * Contain default settings for text based documents.
+ * (all generators that inherited from TextDocumentGenerator)
+ * Generator can add settings to this object individually.
+ *
+ * @since 0.16.60 (KDE 4.10)
+ */
 class OKULAR_EXPORT TextDocumentSettings : public QWidget
 {
     public:
@@ -42,6 +51,14 @@ class OKULAR_EXPORT TextDocumentSettings : public QWidget
         KFontComboBox *kcfg_Font;
 };
 
+/**
+ * TextDocumentSettingsSkeleton
+ *
+ * Contain default settings/config skeleton
+ * To save/restore settings.
+ *
+ * @since 0.16.60 (KDE 4.10)
+ */
 class OKULAR_EXPORT TextDocumentSettingsSkeleton : public KConfigSkeleton
 {
     public:

@@ -182,9 +182,28 @@ class OKULAR_EXPORT TextDocumentGenerator : public Generator, public Okular::Con
 
         // [INHERITED] reparse configuration
         bool reparseConfig();
-        // General settings
+        /**
+         * General settings
+         *
+         * This method return TextDocumentSettings
+         * that contain default settings for text based documents.
+         * Currently it contain only "Font" option.
+         *
+         * @see generalSettingsSkeleton()
+         *
+         * @since 0.16.60 (KDE 4.10)
+         */
         TextDocumentSettings* generalSettings();
-        // General settings
+        /**
+         * Config skeleton for TextDocumentSettings
+         *
+         * You must use new construtor to initialize TextDocumentSettings,
+         * that contain @param configName.
+         *
+         * @see generalSettings()
+         *
+         * @since 0.16.60 (KDE 4.10)
+         */
         TextDocumentSettingsSkeleton* generalSettingsSkeleton();
 
         const Okular::DocumentInfo* generateDocumentInfo();
