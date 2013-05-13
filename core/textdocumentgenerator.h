@@ -190,7 +190,7 @@ class OKULAR_EXPORT TextDocumentGenerator : public Generator, public Okular::Con
          * that contain default settings for text based documents.
          * Currently it contain only "Font" option.
          *
-         * Caller must take care about ownership.
+         * @note Caller must take care about ownership.
          *
          * @see generalSettingsSkeleton()
          *
