@@ -190,6 +190,8 @@ class OKULAR_EXPORT TextDocumentGenerator : public Generator, public Okular::Con
          * that contain default settings for text based documents.
          * Currently it contain only "Font" option.
          *
+         * Caller must take care about ownership.
+         *
          * @see generalSettingsSkeleton()
          *
          * @since 0.16.60 (KDE 4.10)

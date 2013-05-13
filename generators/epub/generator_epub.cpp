@@ -40,5 +40,8 @@ EPubGenerator::EPubGenerator( QObject *parent, const QVariantList &args )
 
 void EPubGenerator::addPages( KConfigDialog* dlg )
 {
-  dlg->addPage( generalSettings(), generalSettingsSkeleton(), i18n("EPub"), "okular-epub-settings", i18n("EPub Backend Configuration") );
+  Okular::TextDocumentSettings *widget = generalSettings();
+  widget->setParent( dlg );
+
+  dlg->addPage( widget, generalSettingsSkeleton(), i18n("EPub"), "okular-epub-settings", i18n("EPub Backend Configuration") );
 }

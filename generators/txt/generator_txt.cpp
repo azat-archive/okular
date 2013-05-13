@@ -38,5 +38,8 @@ TxtGenerator::TxtGenerator( QObject *parent, const QVariantList &args )
 
 void TxtGenerator::addPages( KConfigDialog* dlg )
 {
-    dlg->addPage( generalSettings(), generalSettingsSkeleton(), i18n("Txt"), "okular-txt-settings", i18n("Txt Backend Configuration") );
+    Okular::TextDocumentSettings *widget = generalSettings();
+    widget->setParent( dlg );
+
+    dlg->addPage( widget, generalSettingsSkeleton(), i18n("Txt"), "okular-txt-settings", i18n("Txt Backend Configuration") );
 }
