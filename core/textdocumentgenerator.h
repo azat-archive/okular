@@ -217,16 +217,8 @@ class OKULAR_EXPORT TextDocumentGenerator : public Generator, public Okular::Con
         Okular::TextPage* textPage( Okular::Page *page );
 
     private:
-        void initializeGenerator( TextDocumentConverter *converter );
-
         Q_DECLARE_PRIVATE( TextDocumentGenerator )
         Q_DISABLE_COPY( TextDocumentGenerator )
-
-        Q_PRIVATE_SLOT( d_func(), void addAction( Action*, int, int ) )
-        Q_PRIVATE_SLOT( d_func(), void addAnnotation( Annotation*, int, int ) )
-        Q_PRIVATE_SLOT( d_func(), void addTitle( int, const QString&, const QTextBlock& ) )
-        Q_PRIVATE_SLOT( d_func(), void addMetaData( const QString&, const QString&, const QString& ) )
-        Q_PRIVATE_SLOT( d_func(), void addMetaData( DocumentInfo::Key, const QString& ) )
 };
 
 }

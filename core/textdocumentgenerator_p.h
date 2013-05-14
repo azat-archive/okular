@@ -13,6 +13,7 @@
 #include <QtGui/QAbstractTextDocumentLayout>
 #include <QtGui/QTextBlock>
 #include <QtGui/QTextDocument>
+#include <QObject>
 
 #include "action.h"
 #include "document.h"
@@ -108,13 +109,17 @@ class TextDocumentConverterPrivate
         TextDocumentGeneratorPrivate *mParent;
 };
 
-class TextDocumentGeneratorPrivate : public GeneratorPrivate
+class TextDocumentGeneratorPrivate : public QObject, public GeneratorPrivate
 {
+    // Q_OBJECT
+
     friend class TextDocumentConverter;
 
     public:
         TextDocumentGeneratorPrivate( TextDocumentConverter *converter, TextDocumentSettings* generalSettings = 0, TextDocumentSettingsSkeleton* generalSettingsSkeleton = 0 )
-            : mConverter( converter ), mDocument( 0 ), mGeneralSettings( generalSettings ), mGeneralSettingsSkeleton( generalSettingsSkeleton )
+            : QObject()
+            , mConverter( converter ), mDocument( 0 )
+            , mGeneralSettings( generalSettings ), mGeneralSettingsSkeleton( generalSettingsSkeleton )
         {
         }
 
@@ -133,15 +138,11 @@ class TextDocumentGeneratorPrivate : public GeneratorPrivate
         void calculatePositions( int page, int &start, int &end ) const;
         Okular::TextPage* createTextPage( int ) const;
 
-        void addAction( Action *action, int cursorBegin, int cursorEnd );
-        void addAnnotation( Annotation *annotation, int cursorBegin, int cursorEnd );
-        void addTitle( int level, const QString &title, const QTextBlock &position );
-        void addMetaData( const QString &key, const QString &value, const QString &title );
-        void addMetaData( DocumentInfo::Key, const QString &value );
-
         void generateLinkInfos();
         void generateAnnotationInfos();
         void generateTitleInfos();
+
+        void initializeGenerator( TextDocumentConverter *converter );
 
         TextDocumentConverter *mConverter;
 
@@ -193,6 +194,13 @@ class TextDocumentGeneratorPrivate : public GeneratorPrivate
         TextDocumentSettingsSkeleton* mGeneralSettingsSkeleton;
 
         QFont mFont;
+
+    private Q_SLOTS:
+        void addAction( Action *action, int cursorBegin, int cursorEnd );
+        void addAnnotation( Annotation *annotation, int cursorBegin, int cursorEnd );
+        void addTitle( int level, const QString &title, const QTextBlock &position );
+        void addMetaData( const QString &key, const QString &value, const QString &title );
+        void addMetaData( DocumentInfo::Key, const QString &value );
 };
 
 }
