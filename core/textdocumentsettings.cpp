@@ -40,6 +40,13 @@ TextDocumentSettingsWidget::TextDocumentSettingsWidget( QWidget *parent )
 #undef ADD_WIDGET
 }
 
+TextDocumentSettingsWidget::~TextDocumentSettingsWidget()
+{
+    Q_D( TextDocumentSettingsWidget );
+
+    delete d->mUi;
+}
+
 void TextDocumentSettingsWidget::add(QWidget *widget)
 {
     Q_D( TextDocumentSettingsWidget );

@@ -19,6 +19,10 @@ namespace Okular {
 class TextDocumentSettingsWidgetPrivate
 {
     public:
+        /**
+         * @note the private class won't take ownership of the ui, so you
+         *       must delete it yourself
+         */
         TextDocumentSettingsWidgetPrivate(Ui_TextDocumentSettings *ui)
             : mUi(ui)
         {}

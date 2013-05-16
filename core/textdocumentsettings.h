@@ -78,6 +78,7 @@ class OKULAR_EXPORT TextDocumentSettingsWidget : public QWidget
 {
     public:
         TextDocumentSettingsWidget( QWidget *parent = 0 );
+        virtual ~TextDocumentSettingsWidget();
 
         void add(QWidget *widget);
 
