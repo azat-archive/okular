@@ -19,8 +19,6 @@
 #include <QObject>
 #include <KConfigSkeleton>
 
-class KFontComboBox;
-
 namespace Okular {
 
 class TextDocumentSettingsWidgetPrivate;
