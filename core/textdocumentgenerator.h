@@ -216,6 +216,9 @@ class OKULAR_EXPORT TextDocumentGenerator : public Generator, public Okular::Con
         bool doCloseDocument();
         Okular::TextPage* textPage( Okular::Page *page );
 
+    private Q_SLOTS:
+        void generalSettingsWidgetDestroyed();
+
     private:
         Q_DECLARE_PRIVATE( TextDocumentGenerator )
         Q_DISABLE_COPY( TextDocumentGenerator )

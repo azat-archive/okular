@@ -122,6 +122,10 @@ class TextDocumentGeneratorPrivate : public GeneratorPrivate
         {
             delete mConverter;
             delete mDocument;
+
+            if ( mGeneralSettingsWidget ) {
+                delete mGeneralSettingsWidget;
+            }
         }
 
         void initializeGenerator();
