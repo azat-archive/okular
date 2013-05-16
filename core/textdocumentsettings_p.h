@@ -12,13 +12,19 @@
 #define _OKULAR_TEXTDOCUMENTSETTINGS_P_H_
 
 class KFontComboBox;
+class Ui_TextDocumentSettings;
 
 namespace Okular {
 
 class TextDocumentSettingsWidgetPrivate
 {
     public:
+        TextDocumentSettingsWidgetPrivate(Ui_TextDocumentSettings *ui)
+            : mUi(ui)
+        {}
+
         KFontComboBox *mFont;
+        Ui_TextDocumentSettings *mUi;
 };
 
 class TextDocumentSettingsPrivate

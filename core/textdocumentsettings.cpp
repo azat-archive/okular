@@ -24,21 +24,27 @@ using namespace Okular;
 
 TextDocumentSettingsWidget::TextDocumentSettingsWidget( QWidget *parent )
     : QWidget( parent )
-    , d_ptr( new TextDocumentSettingsWidgetPrivate() )
+    , d_ptr( new TextDocumentSettingsWidgetPrivate( new Ui_TextDocumentSettings() ) )
 {
-    Ui_TextDocumentSettings ui;
-    ui.setupUi( this );
-
     Q_D( TextDocumentSettingsWidget );
 
+    d->mUi->setupUi( this );
+
     // TODO: we need API to add widgets
-#define ADD_WIDGET( property, widget, objectName )                   \
+#define INITIALIZE_WIDGET( property, widget, objectName )            \
     d->property = new widget( this );                                \
     d->property->setObjectName( QString::fromUtf8( objectName ) );   \
-    ui.formLayout->addWidget( d->property );
+    add( d->property );
 
-    ADD_WIDGET( mFont, KFontComboBox, "kcfg_Font" );
+    INITIALIZE_WIDGET( mFont, KFontComboBox, "kcfg_Font" );
 #undef ADD_WIDGET
+}
+
+void TextDocumentSettingsWidget::add(QWidget *widget)
+{
+    Q_D( TextDocumentSettingsWidget );
+
+    d->mUi->formLayout->addWidget( widget );
 }
 
 QFont TextDocumentSettingsWidget::font()
