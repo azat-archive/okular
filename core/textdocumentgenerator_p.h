@@ -113,8 +113,8 @@ class TextDocumentGeneratorPrivate : public GeneratorPrivate
     friend class TextDocumentConverter;
 
     public:
-        TextDocumentGeneratorPrivate( TextDocumentConverter *converter, TextDocumentSettingsWidget* generalSettings = 0, TextDocumentSettings* generalSettingsSkeleton = 0 )
-            : mConverter( converter ), mDocument( 0 ), mGeneralSettings( generalSettings ), mGeneralSettingsSkeleton( generalSettingsSkeleton )
+        TextDocumentGeneratorPrivate( TextDocumentConverter *converter, TextDocumentSettingsWidget* generalSettingsWidget = 0, TextDocumentSettings* generalSettings = 0 )
+            : mConverter( converter ), mDocument( 0 ), mGeneralSettingsWidget( generalSettingsWidget ), mGeneralSettings( generalSettings )
         {
         }
 
@@ -191,8 +191,8 @@ class TextDocumentGeneratorPrivate : public GeneratorPrivate
         };
         QList<AnnotationInfo> mAnnotationInfos;
 
-        TextDocumentSettingsWidget *mGeneralSettings;
-        TextDocumentSettings *mGeneralSettingsSkeleton;
+        TextDocumentSettingsWidget *mGeneralSettingsWidget;
+        TextDocumentSettings *mGeneralSettings;
 
         QFont mFont;
 };

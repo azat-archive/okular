@@ -219,8 +219,8 @@ void TextDocumentGeneratorPrivate::initializeGenerator()
 
     mConverter->d_ptr->mParent = q->d_func();
 
-    if (mGeneralSettingsSkeleton) {
-        mFont = mGeneralSettingsSkeleton->font();
+    if ( mGeneralSettings ) {
+        mFont = mGeneralSettings->font();
     }
 
     q->setFeature( Generator::TextExtraction );
@@ -511,11 +511,11 @@ bool TextDocumentGenerator::reparseConfig()
     Q_D( TextDocumentGenerator );
 
     // don't have settings, just return "no changes".
-    if (!d->mGeneralSettings) {
+    if ( !d->mGeneralSettingsWidget ) {
         return false;
     }
 
-    const QFont newFont = d->mGeneralSettings->font();
+    const QFont newFont = d->mGeneralSettingsWidget->font();
 
     if ( newFont != d->mFont ) {
         d->mFont = newFont;
@@ -529,14 +529,14 @@ TextDocumentSettingsWidget* TextDocumentGenerator::generalSettingsWidget()
 {
     Q_D( TextDocumentGenerator );
 
-    return d->mGeneralSettings;
+    return d->mGeneralSettingsWidget;
 }
 
 TextDocumentSettings* TextDocumentGenerator::generalSettings()
 {
     Q_D( TextDocumentGenerator );
 
-    return d->mGeneralSettingsSkeleton;
+    return d->mGeneralSettings;
 }
 
 #include "textdocumentgenerator.moc"
