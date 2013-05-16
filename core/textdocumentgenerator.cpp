@@ -213,14 +213,13 @@ void TextDocumentGeneratorPrivate::generateTitleInfos()
     }
 }
 
-void TextDocumentGeneratorPrivate::initializeGenerator( TextDocumentConverter *converter )
+void TextDocumentGeneratorPrivate::initializeGenerator()
 {
-    Q_Q( TextDocumentGenerator );
-
     if (mGeneralSettingsSkeleton) {
         mFont = mGeneralSettingsSkeleton->font();
     }
 
+    Q_Q( TextDocumentGenerator );
     q->setFeature( Generator::TextExtraction );
     q->setFeature( Generator::PrintNative );
     q->setFeature( Generator::PrintToFile );
@@ -229,39 +228,39 @@ void TextDocumentGeneratorPrivate::initializeGenerator( TextDocumentConverter *c
         q->setFeature( Generator::Threaded );
 #endif
 
-    connect( converter, SIGNAL(addAction(Action*,int,int)),
+    connect( mConverter, SIGNAL(addAction(Action*,int,int)),
              this, SLOT(addAction(Action*,int,int)) );
-    connect( converter, SIGNAL(addAnnotation(Annotation*,int,int)),
+    connect( mConverter, SIGNAL(addAnnotation(Annotation*,int,int)),
              this, SLOT(addAnnotation(Annotation*,int,int)) );
-    connect( converter, SIGNAL(addTitle(int,QString,QTextBlock)),
+    connect( mConverter, SIGNAL(addTitle(int,QString,QTextBlock)),
              this, SLOT(addTitle(int,QString,QTextBlock)) );
-    connect( converter, SIGNAL(addMetaData(QString,QString,QString)),
+    connect( mConverter, SIGNAL(addMetaData(QString,QString,QString)),
              this, SLOT(addMetaData(QString,QString,QString)) );
-    connect( converter, SIGNAL(addMetaData(DocumentInfo::Key,QString)),
+    connect( mConverter, SIGNAL(addMetaData(DocumentInfo::Key,QString)),
              this, SLOT(addMetaData(DocumentInfo::Key,QString)) );
 
-    connect( converter, SIGNAL(error(QString,int)),
+    connect( mConverter, SIGNAL(error(QString,int)),
              q, SIGNAL(error(QString,int)) );
-    connect( converter, SIGNAL(warning(QString,int)),
+    connect( mConverter, SIGNAL(warning(QString,int)),
              q, SIGNAL(warning(QString,int)) );
-    connect( converter, SIGNAL(notice(QString,int)),
+    connect( mConverter, SIGNAL(notice(QString,int)),
              q, SIGNAL(notice(QString,int)) );
 }
 
 TextDocumentGenerator::TextDocumentGenerator( TextDocumentConverter *converter, const QString& configName, QObject *parent, const QVariantList &args )
     : Okular::Generator( *new TextDocumentGeneratorPrivate( converter, new TextDocumentSettings(), new TextDocumentSettingsSkeleton( configName, parent ) ), parent, args )
 {
-    Q_D( TextDocumentGenerator );
+    Q_D ( TextDocumentGenerator );
 
-    d->initializeGenerator( converter );
+    // d->initializeGenerator();
 }
 
 TextDocumentGenerator::TextDocumentGenerator( TextDocumentConverter *converter, QObject *parent, const QVariantList &args )
     : Okular::Generator( *new TextDocumentGeneratorPrivate( converter ), parent, args )
 {
-    Q_D( TextDocumentGenerator );
+    Q_D ( TextDocumentGenerator );
 
-    d->initializeGenerator( converter );
+    // d->initializeGenerator();
 }
 
 TextDocumentGenerator::~TextDocumentGenerator()

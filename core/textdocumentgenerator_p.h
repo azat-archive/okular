@@ -142,7 +142,7 @@ class TextDocumentGeneratorPrivate : public QObject, public GeneratorPrivate
         void generateAnnotationInfos();
         void generateTitleInfos();
 
-        void initializeGenerator( TextDocumentConverter *converter );
+        void initializeGenerator();
 
         TextDocumentConverter *mConverter;
 
