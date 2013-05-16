@@ -30,7 +30,7 @@ TextDocumentSettingsWidget::TextDocumentSettingsWidget( QWidget *parent )
 
     d->mUi->setupUi( this );
 
-    // TODO: we need API to add widgets
+    // @notice I think this will be usefull in future.
 #define INITIALIZE_WIDGET( property, widget, objectName )            \
     d->property = new widget( this );                                \
     d->property->setObjectName( QString::fromUtf8( objectName ) );   \

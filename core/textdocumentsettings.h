@@ -27,6 +27,45 @@ class TextDocumentSettingsWidgetPrivate;
 class TextDocumentSettingsPrivate;
 
 /**
+ * Here is @example of how you cann add custom settings per-backend:
+ *
+ * In .h header:
+ * {code}
+ * class KIntSpinBox;
+ * ...
+ *
+ * class YourGenerator
+ * {
+ * ...
+ * private:
+ *     QString customArgument;
+ *     KIntSpinBox *customArgumentWidget;
+ * ...
+ * }
+ * {/code}
+ *
+ * In .cpp module:
+ * {code}
+ * #include <KIntSpinBox>
+ * ...
+ * void YourGenerator::addPages( KConfigDialog* dlg )
+ * {
+ *     Okular::TextDocumentSettingsWidget *widget = generalSettingsWidget();
+ *     widget->setParent( dlg );
+ *
+ *     KIntSpinBox *customArgumentWidget = new KIntSpinBox( dlg );
+ *     customArgumentWidget->setObjectName( QString::fromUtf8( "kcfg_CustomArgument" ) );
+ *     widget->add( customArgumentWidget );
+ *
+ *     Okular::TextDocumentSettings *settings = generalSettings();
+ *     settings->addItemString( "CustomArgument", customArgument );
+ *
+ *     dlg->addPage( widget, settings, ... );
+ * }
+ * {/code}
+ */
+
+/**
  * TextDocumentSettingsWidget
  *
  * Contain default settings for text based documents.
