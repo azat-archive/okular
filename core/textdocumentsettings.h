@@ -82,7 +82,7 @@ class OKULAR_EXPORT TextDocumentSettingsWidget : public QWidget
 
         void add( QWidget *widget );
 
-        QFont font();
+        QFont font() const;
 
     private:
         TextDocumentSettingsWidgetPrivate *d_ptr;
@@ -103,7 +103,7 @@ class OKULAR_EXPORT TextDocumentSettings : public KConfigSkeleton
     public:
         TextDocumentSettings( const QString& config, QObject *parent );
 
-        QFont font();
+        QFont font() const;
 
     private:
         TextDocumentSettingsPrivate *d_ptr;

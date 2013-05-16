@@ -54,9 +54,9 @@ void TextDocumentSettingsWidget::add(QWidget *widget)
     d->mUi->formLayout->addWidget( widget );
 }
 
-QFont TextDocumentSettingsWidget::font()
+QFont TextDocumentSettingsWidget::font() const
 {
-    Q_D( TextDocumentSettingsWidget );
+    Q_D( const TextDocumentSettingsWidget );
     return d->mFont->currentFont();
 }
 
@@ -74,8 +74,8 @@ TextDocumentSettings::TextDocumentSettings( const QString& config, QObject *pare
     addItemFont( "Font", d->mFont );
 }
 
-QFont TextDocumentSettings::font()
+QFont TextDocumentSettings::font() const
 {
-    Q_D( TextDocumentSettings );
+    Q_D( const TextDocumentSettings );
     return d->mFont;
 }

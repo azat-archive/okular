@@ -474,7 +474,7 @@ bool TextDocumentGenerator::reparseConfig()
         return false;
     }
 
-    QFont newFont = d->mGeneralSettings->font();
+    const QFont newFont = d->mGeneralSettings->font();
 
     if ( newFont != d->mFont ) {
         d->mFont = newFont;
