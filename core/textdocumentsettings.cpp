@@ -15,6 +15,8 @@
 #include <KFontComboBox>
 #include <KLocale>
 
+#include <QLabel>
+
 
 using namespace Okular;
 
@@ -31,12 +33,12 @@ TextDocumentSettingsWidget::TextDocumentSettingsWidget( QWidget *parent )
     d->mUi->setupUi( this );
 
     // @notice I think this will be usefull in future.
-#define ADD_WIDGET( property, widget, objectName )            \
+#define ADD_WIDGET( property, widget, objectName, labelName )        \
     d->property = new widget( this );                                \
     d->property->setObjectName( QString::fromUtf8( objectName ) );   \
-    add( d->property );
+    addRow( labelName, d->property );
 
-    ADD_WIDGET( mFont, KFontComboBox, "kcfg_Font" );
+    ADD_WIDGET( mFont, KFontComboBox, "kcfg_Font", "&Font" );
 #undef ADD_WIDGET
 }
 
@@ -47,10 +49,14 @@ TextDocumentSettingsWidget::~TextDocumentSettingsWidget()
     delete d->mUi;
 }
 
-void TextDocumentSettingsWidget::add(QWidget *widget)
+void TextDocumentSettingsWidget::addRow( const QString& labelText, QWidget *widget )
 {
     Q_D( TextDocumentSettingsWidget );
 
+    QLabel *label = new QLabel( labelText, this );
+    label->setBuddy( widget );
+
+    d->mUi->formLayout->addWidget( label );
     d->mUi->formLayout->addWidget( widget );
 }
 

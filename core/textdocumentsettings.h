@@ -55,7 +55,7 @@ class TextDocumentSettingsPrivate;
  *
  *     KIntSpinBox *customArgumentWidget = new KIntSpinBox( dlg );
  *     customArgumentWidget->setObjectName( QString::fromUtf8( "kcfg_CustomArgument" ) );
- *     widget->add( customArgumentWidget );
+ *     widget->addRow( "Custom argument", customArgumentWidget );
  *
  *     Okular::TextDocumentSettings *settings = generalSettings();
  *     settings->addItemString( "CustomArgument", customArgument );
@@ -80,7 +80,7 @@ class OKULAR_EXPORT TextDocumentSettingsWidget : public QWidget
         TextDocumentSettingsWidget( QWidget *parent = 0 );
         virtual ~TextDocumentSettingsWidget();
 
-        void add( QWidget *widget );
+        void addRow( const QString& labelText, QWidget *widget );
 
         QFont font() const;
 
