@@ -13,6 +13,7 @@
 
 #include <core/textdocumentgenerator.h>
 
+
 class TxtGenerator : public Okular::TextDocumentGenerator
 {
     public:

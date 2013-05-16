@@ -189,8 +189,8 @@ class TextDocumentGeneratorPrivate : public GeneratorPrivate
         };
         QList<AnnotationInfo> mAnnotationInfos;
 
-        TextDocumentSettingsWidget* mGeneralSettings;
-        TextDocumentSettings* mGeneralSettingsSkeleton;
+        TextDocumentSettingsWidget *mGeneralSettings;
+        TextDocumentSettings *mGeneralSettingsSkeleton;
 
         QFont mFont;
 };

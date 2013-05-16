@@ -80,7 +80,7 @@ class OKULAR_EXPORT TextDocumentSettingsWidget : public QWidget
         TextDocumentSettingsWidget( QWidget *parent = 0 );
         virtual ~TextDocumentSettingsWidget();
 
-        void add(QWidget *widget);
+        void add( QWidget *widget );
 
         QFont font();
 
