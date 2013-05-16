@@ -31,12 +31,12 @@ TextDocumentSettingsWidget::TextDocumentSettingsWidget( QWidget *parent )
     d->mUi->setupUi( this );
 
     // @notice I think this will be usefull in future.
-#define INITIALIZE_WIDGET( property, widget, objectName )            \
+#define ADD_WIDGET( property, widget, objectName )            \
     d->property = new widget( this );                                \
     d->property->setObjectName( QString::fromUtf8( objectName ) );   \
     add( d->property );
 
-    INITIALIZE_WIDGET( mFont, KFontComboBox, "kcfg_Font" );
+    ADD_WIDGET( mFont, KFontComboBox, "kcfg_Font" );
 #undef ADD_WIDGET
 }
 
