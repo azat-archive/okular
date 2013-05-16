@@ -40,8 +40,8 @@ KOOOGenerator::KOOOGenerator( QObject *parent, const QVariantList &args )
 
 void KOOOGenerator::addPages( KConfigDialog* dlg )
 {
-    Okular::TextDocumentSettings *widget = generalSettings();
+    Okular::TextDocumentSettingsWidget *widget = generalSettingsWidget();
     widget->setParent( dlg );
 
-    dlg->addPage( widget, generalSettingsSkeleton(), i18n("OpenDocument Text"), "okular-ooo-settings", i18n("OpenDocument Text Backend Configuration") );
+    dlg->addPage( widget, generalSettings(), i18n("OpenDocument Text"), "okular-ooo-settings", i18n("OpenDocument Text Backend Configuration") );
 }

@@ -147,7 +147,7 @@ class OKULAR_EXPORT TextDocumentGenerator : public Generator, public Okular::Con
         /**
          * Creates a new generator that uses the specified @p converter.
          *
-         * @param configName - see Okular::TextDocumentSettingsSkeleton
+         * @param configName - see Okular::TextDocumentSettings
          *
          * @note the generator will take ownership of the converter, so you
          *       don't have to delete it yourself
@@ -186,28 +186,28 @@ class OKULAR_EXPORT TextDocumentGenerator : public Generator, public Okular::Con
         /**
          * General settings
          *
-         * This method return TextDocumentSettings
+         * This method return TextDocumentSettingsWidget
          * that contain default settings for text based documents.
          * Currently it contain only "Font" option.
          *
          * @note Caller must take care about ownership.
          *
-         * @see generalSettingsSkeleton()
-         *
-         * @since 0.16.60 (KDE 4.10)
-         */
-        TextDocumentSettings* generalSettings();
-        /**
-         * Config skeleton for TextDocumentSettings
-         *
-         * You must use new construtor to initialize TextDocumentSettingsSkeleton,
-         * that contain @param configName.
-         *
          * @see generalSettings()
          *
          * @since 0.16.60 (KDE 4.10)
          */
-        TextDocumentSettingsSkeleton* generalSettingsSkeleton();
+        TextDocumentSettingsWidget* generalSettingsWidget();
+        /**
+         * Config skeleton for TextDocumentSettingsWidget
+         *
+         * You must use new construtor to initialize TextDocumentSettings,
+         * that contain @param configName.
+         *
+         * @see generalSettingsWidget()
+         *
+         * @since 0.16.60 (KDE 4.10)
+         */
+        TextDocumentSettings* generalSettings();
 
         const Okular::DocumentInfo* generateDocumentInfo();
         const Okular::DocumentSynopsis* generateDocumentSynopsis();

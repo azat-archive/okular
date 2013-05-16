@@ -40,8 +40,8 @@ FictionBookGenerator::FictionBookGenerator( QObject *parent, const QVariantList 
 
 void FictionBookGenerator::addPages( KConfigDialog* dlg )
 {
-    Okular::TextDocumentSettings *widget = generalSettings();
+    Okular::TextDocumentSettingsWidget *widget = generalSettingsWidget();
     widget->setParent( dlg );
 
-    dlg->addPage( widget, generalSettingsSkeleton(), i18n("FictionBook"), "okular-fictionbook-settings", i18n("FictionBook Backend Configuration") );
+    dlg->addPage( widget, generalSettings(), i18n("FictionBook"), "okular-fictionbook-settings", i18n("FictionBook Backend Configuration") );
 }

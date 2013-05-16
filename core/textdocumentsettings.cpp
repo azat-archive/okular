@@ -19,17 +19,17 @@
 using namespace Okular;
 
 /**
- * TextDocumentSettings
+ * TextDocumentSettingsWidget
  */
 
-TextDocumentSettings::TextDocumentSettings( QWidget *parent )
+TextDocumentSettingsWidget::TextDocumentSettingsWidget( QWidget *parent )
     : QWidget( parent )
-    , d_ptr( new TextDocumentSettingsPrivate() )
+    , d_ptr( new TextDocumentSettingsWidgetPrivate() )
 {
     Ui_TextDocumentSettings ui;
     ui.setupUi( this );
 
-    Q_D( TextDocumentSettings );
+    Q_D( TextDocumentSettingsWidget );
 
     // TODO: we need API to add widgets
 #define ADD_WIDGET( property, widget, objectName )                   \
@@ -41,28 +41,28 @@ TextDocumentSettings::TextDocumentSettings( QWidget *parent )
 #undef ADD_WIDGET
 }
 
-QFont TextDocumentSettings::font()
+QFont TextDocumentSettingsWidget::font()
 {
-    Q_D( TextDocumentSettings );
+    Q_D( TextDocumentSettingsWidget );
     return d->mFont->currentFont();
 }
 
 
 /**
- * TextDocumentSettingsSkeleton
+ * TextDocumentSettings
  */
 
-TextDocumentSettingsSkeleton::TextDocumentSettingsSkeleton( const QString& config, QObject *parent )
+TextDocumentSettings::TextDocumentSettings( const QString& config, QObject *parent )
     : KConfigSkeleton( config, parent )
-    , d_ptr( new TextDocumentSettingsSkeletonPrivate() )
+    , d_ptr( new TextDocumentSettingsPrivate() )
 {
-    Q_D( TextDocumentSettingsSkeleton );
+    Q_D( TextDocumentSettings );
 
     addItemFont( "Font", d->mFont );
 }
 
-QFont TextDocumentSettingsSkeleton::font()
+QFont TextDocumentSettings::font()
 {
-    Q_D( TextDocumentSettingsSkeleton );
+    Q_D( TextDocumentSettings );
     return d->mFont;
 }

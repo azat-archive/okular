@@ -15,13 +15,13 @@ class KFontComboBox;
 
 namespace Okular {
 
-class TextDocumentSettingsPrivate
+class TextDocumentSettingsWidgetPrivate
 {
     public:
         KFontComboBox *mFont;
 };
 
-class TextDocumentSettingsSkeletonPrivate
+class TextDocumentSettingsPrivate
 {
     public:
         QFont mFont;

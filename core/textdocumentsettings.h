@@ -23,11 +23,11 @@ class KFontComboBox;
 
 namespace Okular {
 
+class TextDocumentSettingsWidgetPrivate;
 class TextDocumentSettingsPrivate;
-class TextDocumentSettingsSkeletonPrivate;
 
 /**
- * TextDocumentSettings
+ * TextDocumentSettingsWidget
  *
  * Contain default settings for text based documents.
  * (all generators that inherited from TextDocumentGenerator)
@@ -35,10 +35,31 @@ class TextDocumentSettingsSkeletonPrivate;
  *
  * @since 0.16.60 (KDE 4.10)
  */
-class OKULAR_EXPORT TextDocumentSettings : public QWidget
+class OKULAR_EXPORT TextDocumentSettingsWidget : public QWidget
 {
     public:
-        TextDocumentSettings( QWidget *parent = 0 );
+        TextDocumentSettingsWidget( QWidget *parent = 0 );
+
+        QFont font();
+
+    private:
+        TextDocumentSettingsWidgetPrivate *d_ptr;
+        Q_DECLARE_PRIVATE( TextDocumentSettingsWidget )
+        Q_DISABLE_COPY( TextDocumentSettingsWidget )
+};
+
+/**
+ * TextDocumentSettings
+ *
+ * Contain default settings/config skeleton
+ * To save/restore settings.
+ *
+ * @since 0.16.60 (KDE 4.10)
+ */
+class OKULAR_EXPORT TextDocumentSettings : public KConfigSkeleton
+{
+    public:
+        TextDocumentSettings( const QString& config, QObject *parent );
 
         QFont font();
 
@@ -46,27 +67,6 @@ class OKULAR_EXPORT TextDocumentSettings : public QWidget
         TextDocumentSettingsPrivate *d_ptr;
         Q_DECLARE_PRIVATE( TextDocumentSettings )
         Q_DISABLE_COPY( TextDocumentSettings )
-};
-
-/**
- * TextDocumentSettingsSkeleton
- *
- * Contain default settings/config skeleton
- * To save/restore settings.
- *
- * @since 0.16.60 (KDE 4.10)
- */
-class OKULAR_EXPORT TextDocumentSettingsSkeleton : public KConfigSkeleton
-{
-    public:
-        TextDocumentSettingsSkeleton( const QString& config, QObject *parent );
-
-        QFont font();
-
-    private:
-        TextDocumentSettingsSkeletonPrivate *d_ptr;
-        Q_DECLARE_PRIVATE( TextDocumentSettingsSkeleton )
-        Q_DISABLE_COPY( TextDocumentSettingsSkeleton )
 };
 
 }
