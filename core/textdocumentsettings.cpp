@@ -12,7 +12,7 @@
 #include "textdocumentsettings_p.h"
 #include "ui_textdocumentsettings.h"
 
-#include <KFontComboBox>
+#include <KFontRequester>
 #include <KLocale>
 
 #include <QLabel>
@@ -38,7 +38,7 @@ TextDocumentSettingsWidget::TextDocumentSettingsWidget( QWidget *parent )
     d->property->setObjectName( QString::fromUtf8( objectName ) );   \
     addRow( labelName, d->property );
 
-    ADD_WIDGET( mFont, KFontComboBox, "kcfg_Font", "&Font" );
+    ADD_WIDGET( mFont, KFontRequester, "kcfg_Font", "&Font" );
 #undef ADD_WIDGET
 }
 
@@ -63,7 +63,8 @@ void TextDocumentSettingsWidget::addRow( const QString& labelText, QWidget *widg
 QFont TextDocumentSettingsWidget::font() const
 {
     Q_D( const TextDocumentSettingsWidget );
-    return d->mFont->currentFont();
+
+    return d->mFont->font();
 }
 
 

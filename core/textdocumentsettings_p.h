@@ -11,7 +11,7 @@
 #ifndef _OKULAR_TEXTDOCUMENTSETTINGS_P_H_
 #define _OKULAR_TEXTDOCUMENTSETTINGS_P_H_
 
-class KFontComboBox;
+class KFontRequester;
 class Ui_TextDocumentSettings;
 
 namespace Okular {
@@ -27,7 +27,7 @@ class TextDocumentSettingsWidgetPrivate
             : mUi(ui)
         {}
 
-        KFontComboBox *mFont;
+        KFontRequester *mFont;
         Ui_TextDocumentSettings *mUi;
 };
 
