@@ -124,6 +124,8 @@ class TextDocumentGeneratorPrivate : public GeneratorPrivate
             delete mDocument;
         }
 
+        void initializeGenerator();
+
         Q_DECLARE_PUBLIC( TextDocumentGenerator )
 
         /* reimp */ QVariant metaData( const QString &key, const QVariant &option ) const;

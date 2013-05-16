@@ -217,8 +217,6 @@ class OKULAR_EXPORT TextDocumentGenerator : public Generator, public Okular::Con
         Okular::TextPage* textPage( Okular::Page *page );
 
     private:
-        void initializeGenerator( TextDocumentConverter *converter );
-
         Q_DECLARE_PRIVATE( TextDocumentGenerator )
         Q_DISABLE_COPY( TextDocumentGenerator )
 
