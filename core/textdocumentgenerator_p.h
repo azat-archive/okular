@@ -145,6 +145,8 @@ class TextDocumentGeneratorPrivate : public GeneratorPrivate
         void addMetaData( const QString &key, const QString &value, const QString &title );
         void addMetaData( DocumentInfo::Key, const QString &value );
 
+        void generalSettingsWidgetDestroyed();
+
         void generateLinkInfos();
         void generateAnnotationInfos();
         void generateTitleInfos();

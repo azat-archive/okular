@@ -253,17 +253,15 @@ void TextDocumentGeneratorPrivate::initializeGenerator()
                       q, SLOT(generalSettingsWidgetDestroyed()) );
 }
 
-void TextDocumentGenerator::generalSettingsWidgetDestroyed()
+void TextDocumentGeneratorPrivate::generalSettingsWidgetDestroyed()
 {
-    Q_D( TextDocumentGenerator );
-
     /**
      * If addPage() is called from generator, it will install parent for this object,
      * and parent will destroy this object before ~TextDocumentGeneratorPrivate()
      *
      * So just reset it.
      */
-    d->mGeneralSettingsWidget = 0;
+    mGeneralSettingsWidget = 0;
 }
 
 TextDocumentGenerator::TextDocumentGenerator( TextDocumentConverter *converter, const QString& configName, QObject *parent, const QVariantList &args )
