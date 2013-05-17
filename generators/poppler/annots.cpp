@@ -402,7 +402,7 @@ Okular::Annotation* createAnnotationFromPopplerAnnotation( Poppler::Annotation *
             {
 #ifndef HAVE_POPPLER_0_20
                 // Poppler before 0.20 returns the inplaceText in contents
-                txtann->setInplaceText( txtann->contents() );
+                txtann->setContents( txtann->contents() );
 #endif
             }
             else if ( txtann->textType() == Okular::TextAnnotation::Linked )
